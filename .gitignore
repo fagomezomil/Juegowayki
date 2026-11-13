@@ -1,0 +1,32 @@
+# Repo solo con lo publicable del juego (whitelist): prototipo + supabase
+/*
+
+!/.gitignore
+!/README.md
+!/prototipo
+!/supabase
+
+# --- dentro de prototipo ---
+# configuración con anon key (se genera con node ../supabase/gen_cfg.js)
+prototipo/cfg.js
+# dependencias y build
+prototipo/node_modules/
+prototipo/_deploy/
+# fotos crudas 1:1 (están optimizadas en assets/fotos)
+prototipo/fotos-originales/
+# artefactos de control/QA
+prototipo/_chk/
+prototipo/shot_*.png
+prototipo/_check_*.png
+prototipo/_fotos_log.txt
+# helper locales del nested ghost
+prototipo/prototipo/
+
+# --- dentro de supabase ---
+supabase/.env
+# seed con datos reales de terceros (prestadores, alojamientos): nunca commitear
+supabase/0002_seed.sql
+
+# del sistema
+Thumbs.db
+desktop.ini

@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00373F">
+<title>El Juego del Verano — Tucumán · PROTOTIPO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Passion+One:wght@400;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Gobold';src:url('assets/fonts/Gobold-Extra2.otf') format('opentype');font-weight:normal;font-style:normal;font-display:swap}
+@font-face{font-family:'Sofia Sans';src:url('assets/fonts/SofiaSans-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:'Sofia Sans';src:url('assets/fonts/SofiaSans-Medium.ttf') format('truetype');font-weight:500;font-display:swap}
+@font-face{font-family:'Sofia Sans';src:url('assets/fonts/SofiaSans-SemiBold.ttf') format('truetype');font-weight:600;font-display:swap}
+@font-face{font-family:'Sofia Sans';src:url('assets/fonts/SofiaSans-Bold.ttf') format('truetype');font-weight:700;font-display:swap}
+@font-face{font-family:'Sofia Sans';src:url('assets/fonts/SofiaSans-ExtraBold.ttf') format('truetype');font-weight:800;font-display:swap}
+@font-face{font-family:'Sofia Sans Condensed';src:url('assets/fonts/SofiaSansCondensed-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:'Sofia Sans Condensed';src:url('assets/fonts/SofiaSansCondensed-Bold.ttf') format('truetype');font-weight:700;font-display:swap}
+:root{
+  --coral:#CF712B; --amar:#E2CE0F; --verde:#91B973; --teal:#006E66; --petroleo:#00373F; --celeste:#70A4B0;
+  --crema:#FFF9EE; --papel:#FFFDF6; --linea:#E7DFC9; --gris:#8A9296;
+  /* cromáticas por circuito (Cromática institucional.pdf) */
+  --cA:#004264; --cB:#52996C; --cC:#7D192F; --cD:#3D7672; --cE:#A93432; --cP:#BF5E10;
+  --ci:#52996C;
+  --disp:'Gobold','Passion One',Impact,sans-serif;
+  --cuer:'Sofia Sans','Karla',sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--cuer);background:var(--crema);color:var(--petroleo);max-width:430px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;
+  background-image:radial-gradient(#E9E0C8 1.1px,transparent 1.3px);background-size:22px 22px;
+}
+button{font-family:inherit;cursor:pointer;border:none}
+.hidden{display:none!important}
+::selection{background:var(--amar);color:var(--petroleo)}
+
+/* ---------- header: banda petróleo con textura + sócalo ---------- */
+header{position:relative;text-align:center;padding:12px 14px;background:var(--petroleo);color:#fff;overflow:hidden;border-bottom:4px solid var(--amar)}
+header .fondo{position:absolute;inset:0;background:url('assets/textura.png') center/cover no-repeat;opacity:.1;pointer-events:none}
+.fila-logos{position:relative;display:flex;justify-content:space-between;align-items:center}
+.fila-logos img{height:40px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.25))}
+.fila-logos .ett{height:27px;filter:brightness(0) invert(1);opacity:.7}
+.titulo-folio{position:relative;font-family:var(--disp);font-size:17px;letter-spacing:1.5px;margin-top:7px;color:#FEF298;text-transform:uppercase}
+.bajada{position:relative;font-family:var(--cuer);font-weight:600;font-size:11px;letter-spacing:1px;margin-top:3px;color:rgba(255,255,255,.85)}
+
+/* ---------- vistas ---------- */
+.vista{padding:16px 15px 96px}
+h2.sec{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--gris);margin:22px 2px 10px;display:flex;align-items:center;gap:8px}
+h2.si{display:flex;align-items:center;gap:9px}
+h2 .icn{width:15px;height:15px;flex:0 0 auto}
+h2 .icnB{width:19px;height:19px;flex:0 0 auto}
+/* icono flat inline en texto (hereda tamaño y color del renglón) */
+.ie{width:1.05em;height:1.05em;display:inline-block;vertical-align:-.16em}
+h2.sec::after{content:'';flex:1;border-top:2px dotted var(--linea)}
+
+/* ---------- botones sticker ---------- */
+.btn{display:block;width:100%;padding:15px;border-radius:16px;font-size:16px;font-weight:800;margin-top:12px;letter-spacing:.3px;transition:transform .12s}
+.btn:active{transform:translateY(2px) !important}
+.btn-principal{background:var(--coral);color:#fff;box-shadow:3.5px 4px 0 var(--petroleo);font-family:var(--disp);font-size:19px;letter-spacing:1px}
+.btn-teal{background:var(--teal);color:#fff;box-shadow:3px 3px 0 var(--petroleo);font-family:var(--disp);font-size:16px;letter-spacing:1px}
+.btn-ghost{background:var(--papel);color:var(--petroleo);border:2px solid var(--petroleo);font-weight:700;font-size:13.5px;padding:11px;box-shadow:2.5px 2.5px 0 rgba(0,55,63,.22)}
+.btn-demo{background:#FDF3DF;color:var(--cP);font-size:12.5px;padding:9px;font-weight:700;border:1.5px dashed var(--cP);border-radius:12px}
+.btn-google,.btn-social{background:#fff;color:#333;font-family:var(--cuer);font-weight:700;font-size:15px;letter-spacing:.2px;display:flex;align-items:center;justify-content:center;gap:9px}
+.soc-trio{display:inline-flex;gap:5px}
+.soc-trio .soc-ic{width:27px;height:27px;box-shadow:1px 1px 3px rgba(0,0,0,.25)}
+.soc-ic{display:inline-flex;width:24px;height:24px;border-radius:50%;align-items:center;justify-content:center;flex:0 0 auto}
+.soc-ic svg{width:13px;height:13px;display:block}
+.soc-ic.g{background:#fff;border:1px solid #E4E4E4}
+.soc-ic.ig{background:linear-gradient(45deg,#F58529,#DD2A7B,#8134AF,#5B51D8)}
+.soc-ic.fb{background:#FFF}
+
+/* ---------- onboarding ---------- */
+#v-on{display:flex;flex-direction:column;align-items:center;text-align:center;padding:34px 0 60px;flex:1}
+#v-on .mont-cont{margin-top:auto}
+#v-on img.logo{width:68%;animation:flotar 4.2s ease-in-out infinite}
+#v-on .mont-cont{align-self:stretch;position:relative;margin-top:auto;text-align:center;padding:300px 20px 26px;background-image:url('assets/montanabase430.png'),url('assets/wayki-saluda.png');background-repeat:no-repeat,no-repeat;background-position:center 225px,center -34px;background-size:100% auto,330px auto;color:#fff}
+#v-on h1{font-family:var(--disp);font-size:27px;margin:0 0 2px;letter-spacing:.5px;line-height:1;color:#fff}
+#v-on h1 b{color:#FEF298}
+#v-on p{color:rgba(255,255,255,.93);max-width:290px;font-size:14px;line-height:1.5;margin-left:auto;margin-right:auto}
+#v-on .ett-chico{height:24px;margin-top:15px;opacity:.55;filter:brightness(0) invert(1)}
+@keyframes flotar{50%{transform:translateY(-7px)}}
+
+/* ---------- tabs ---------- */
+nav.tabs{position:fixed;bottom:0;left:0;right:0;max-width:430px;margin:0 auto;display:flex;background:var(--petroleo);border-top:3px solid var(--amar);z-index:50}
+nav.tabs button{flex:1;background:none;padding:10px 0 12px;font-size:9.5px;color:#9FB3B2;display:flex;flex-direction:column;gap:3px;align-items:center;font-weight:700}
+nav.tabs button .ic{width:21px;height:21px;display:block;object-fit:contain}
+nav.tabs button img.ic{object-position:center 30%}
+a.noct-card{color:var(--petroleo);text-decoration:none}
+.cnt-c{font-weight:800;font-size:11px;color:var(--teal);margin-top:2px;cursor:pointer;text-decoration:underline}
+nav.tabs button.on{color:var(--amar)}
+
+/* ---------- diario home ---------- */
+.rango-box{position:relative;background:var(--papel);border:2.5px solid var(--petroleo);border-radius:18px;padding:15px 15px 13px;box-shadow:4px 4px 0 rgba(0,55,63,.14)}
+#v-home .rango-box::after{content:'DIARIO Nº 0000001';position:absolute;top:-9px;right:14px;background:var(--amar);border:2px solid var(--petroleo);border-radius:7px;font-family:'Space Mono',monospace;font-size:8px;font-weight:700;padding:2px 7px;letter-spacing:1px}
+.rango-linha{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;font-weight:800;margin-bottom:8px}
+.rango-quien{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:7px}
+.rango-quien .quien-izq{display:flex;align-items:center;gap:7px;min-width:0}
+.rango-quien .quien-nom{font-size:12.5px;font-weight:800;color:var(--petroleo);letter-spacing:.3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rango-quien .quien-av{width:23px;height:23px;border-radius:50%;border:1.5px solid var(--petroleo);overflow:hidden;flex-shrink:0;background:var(--amar);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-size:11px;color:var(--petroleo)}
+.rango-quien .quien-av img{width:100%;height:100%;object-fit:cover}
+.rango-quien .quien-grp{background:#91B973;border:none;border-radius:6px;color:#fff;font-size:9.5px;font-weight:800;padding:3px 8px;letter-spacing:.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55%;flex-shrink:0}
+.av-fila{display:flex;gap:12px;align-items:flex-start}
+.avatar{flex-shrink:0;width:64px;height:64px;border-radius:50%;border:2.5px solid var(--petroleo);object-fit:cover;background:var(--papel);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;font-family:var(--disp);font-size:26px;color:var(--teal)}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.avatar-wrap{position:relative;flex-shrink:0;width:64px;height:64px;cursor:pointer}
+.avatar-wrap .avatar{cursor:pointer}
+.avatar-cam{position:absolute;bottom:-3px;right:-3px;width:23px;height:23px;border-radius:50%;background:var(--amar);border:2px solid var(--petroleo);display:flex;align-items:center;justify-content:center;font-size:11px;z-index:2}
+.rango-linha .rn{font-family:var(--disp);font-size:20px;color:var(--teal);letter-spacing:.5px}
+.barra{height:13px;border-radius:8px;background:#EFE9D8;overflow:hidden;border:1.5px solid var(--petroleo)}
+.barra i{display:block;height:100%;background:repeating-linear-gradient(-45deg,var(--amar) 0 9px,var(--coral) 9px 18px);border-radius:6px;transition:width .5s cubic-bezier(.34,1.4,.5,1)}
+.next{font-size:11.5px;color:var(--gris);margin-top:7px;font-weight:600}
+
+.chips-circuitos{display:flex;gap:8px;overflow-x:auto;padding:3px 1px 6px;scrollbar-width:none}
+.chips-circuitos::-webkit-scrollbar{display:none}
+.chips-circuitos button{flex:0 0 auto;display:flex;align-items:center;gap:6px;border-radius:999px;padding:8px 13px;font-size:11.5px;font-weight:800;background:var(--papel);border:2px solid var(--linea);color:var(--petroleo);transition:.15s}
+.chips-circuitos button.on{border-color:var(--ci);background:var(--ci);color:#fff;box-shadow:2.5px 2.5px 0 rgba(0,55,63,.25)}
+.chip-logo{height:15px;width:auto;display:block}
+.chips-circuitos button.on .chip-logo{filter:brightness(0) invert(1)}
+
+/* sellos = estampas de diario */
+.grid-sellos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.sello{position:relative;background:#fffdf5;border:3px solid var(--ci);border-radius:4px 18px 4px 18px;overflow:hidden;box-shadow:0 4px 10px rgba(0,0,0,.18);transition:transform .12s;animation:pop .32s both;animation-delay:calc(var(--i)*28ms);cursor:pointer}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+.sello:active{transform:scale(.93)}
+.sello .fotos{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;height:104px}
+.sello .fotos::-webkit-scrollbar{display:none}
+.sello .fotos img{flex:0 0 100%;width:100%;object-fit:cover;scroll-snap-align:start;pointer-events:none}
+.sello .foto-z{position:relative}
+.sello .dest{position:absolute;top:7px;left:7px;z-index:2;background:var(--ci);color:#fff;font-size:8.5px;font-weight:800;letter-spacing:.6px;padding:3px 9px;border-radius:11px;text-transform:uppercase}
+.sello .bmar{position:absolute;right:7px;bottom:9px;z-index:2;display:flex;gap:4px}
+.sello .bmar .ch{min-width:28px;height:28px;padding:0 7px;border-radius:14px;background:#fffdf5;box-shadow:0 1px 5px rgba(0,20,25,.4);display:flex;align-items:center;justify-content:center;flex:none}
+.sello .bmar .ch img{height:16px;display:block}
+.sello .bmar .ch svg{height:16px;width:16px;color:var(--ci)}
+.sello .cuerpo{padding:7px 10px 8px}
+.sello .nom{font-family:var(--disp);font-size:12.5px;line-height:1.3;color:var(--petroleo)}
+.sello .est{font-size:8.5px;font-weight:800;letter-spacing:.8px;color:var(--ci);margin-top:4px;display:none}
+.sello.ok .est{display:block}
+.sello.ok{background:#fffdf5}
+.sello.ok:nth-child(2n){transform:rotate(2deg)}
+.sello.ok:nth-child(3n){transform:rotate(-2.5deg)}
+/* sin = álbum b&n, EXCEPTO el chip (ruta/producto o POI) que queda a color para destacar */
+.sello.sin{border-color:rgba(45,62,66,.35)}
+.sello.sin .fotos img,.sello.sin .cuerpo,.sello.sin .dest{filter:saturate(0);opacity:.8}
+
+.noct-card{display:flex;align-items:center;gap:11px;background:var(--papel);border-radius:16px;padding:12px 13px;margin-top:10px;border:2px solid var(--linea);box-shadow:3px 3px 0 rgba(0,55,63,.08);transition:transform .12s}
+.noct-card:active{transform:scale(.98)}
+.noct-card img{width:52px;flex:0 0 auto}
+.badge{background:var(--amar);color:var(--petroleo);font-weight:800;font-size:11px;border-radius:8px;padding:3px 8px;border:1.5px solid var(--petroleo);white-space:nowrap}
+.badge-cir{background:#fff;display:inline-flex;align-items:center;padding:3px 6px}
+.badge-cir img{height:14px;display:block}
+.chips-fir{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+
+/* ---------- ficha (bottom sheet papel) ---------- */
+.ficha{position:fixed;inset:0;z-index:60;background:rgba(0,55,63,.68);display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(2px)}
+.ficha-in{background:var(--papel);width:100%;max-width:430px;border-radius:24px 24px 0 0;padding:18px 17px 28px;max-height:92vh;overflow-y:auto;animation:up .28s cubic-bezier(.3,1.2,.5,1);border-top:5px solid var(--ci)}
+@keyframes up{from{transform:translateY(50px);opacity:.35}}
+.ficha-in .close{float:right;background:var(--petroleo);color:#fff;font-size:13px;width:30px;height:30px;border-radius:50%;line-height:30px}
+.ficha-in .tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#fff;background:var(--ci);border-radius:9px;padding:4px 11px;box-shadow:2px 2px 0 rgba(0,55,63,.3)}
+.ficha-in img.wayki{width:112px;float:right;margin:-14px 2px 0 8px;transform:rotate(4deg)}
+#v-reg{max-width:330px;margin:0 auto;display:flex;flex-direction:column;align-items:stretch}
+#v-reg .reg-box{background:var(--papel);border:2px solid var(--ci);border-radius:18px;padding:18px 16px 16px;box-shadow:4px 4px 0 rgba(0,55,63,.12)}
+#v-reg .btn-ghost{align-self:center}
+.fld{margin-bottom:12px}
+.fld label{display:block;font-size:11.5px;font-weight:800;color:var(--petroleo);margin-bottom:4px;letter-spacing:.6px;text-transform:uppercase}
+.fld input[type=text],.fld input:not([type]),.fld input[type=tel],.fld input[type=email]{width:100%;box-sizing:border-box;padding:11px 13px;border:2px solid var(--ci);border-radius:12px;font-family:var(--cuer);font-weight:600;font-size:15px;color:var(--petroleo);background:#fff}
+.fld input:focus,.fld select:focus{outline:none;border-color:var(--teal)}
+.fld select,.fld input[list]{width:100%;padding:11px 13px;border:2px solid var(--ci);border-radius:12px;font-family:var(--cuer);font-weight:600;font-size:14px;color:var(--petroleo);background:#fff}
+.fld small{font-size:11px;color:var(--gris);margin-top:3px}
+.chk{display:block;font-size:12.5px;line-height:1.45;color:var(--petroleo);margin:10px 0;cursor:pointer}
+.chk input{float:left;margin:2px 8px 0 0;accent-color:var(--teal)}
+.cod-grupo{font-family:var(--disp);font-size:21px;letter-spacing:3px;color:var(--teal);display:inline-block;margin-top:3px}
+.fld-row{display:flex;gap:8px;margin-top:8px;align-items:stretch}
+.fld-row input{min-width:0;box-sizing:border-box;padding:11px 13px;border:2px solid var(--ci);border-radius:12px;font-family:var(--cuer);font-weight:600;font-size:14px;color:var(--petroleo);background:#fff}
+.fld-row .btn{width:auto;flex:0 0 auto;margin-top:0;padding:10px 13px;font-size:13px}
+.ficha-in .gal{margin:2px 0 12px}
+.ficha-in .gal .gal-z{position:relative}
+.ficha-in .gal .lchip{position:absolute;right:10px;bottom:10px;z-index:2;display:flex;gap:5px;align-items:center;color:var(--ci)}
+.ficha-in .gal .lchip .ch{min-width:30px;height:30px;padding:0 8px;border-radius:15px;background:#fffdf5;box-shadow:0 1px 6px rgba(0,20,25,.45);display:flex;align-items:center;justify-content:center;flex:none}
+.ficha-in .gal .lchip .ch img{height:21px;display:block}
+.ficha-in .gal .lchip .ch svg{height:21px;width:21px;color:currentColor}
+.ficha-in .gal-main{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;background:var(--crema)}
+.ficha-in .gal-t{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.ficha-in .gal-t img{width:56px;height:42px;object-fit:cover;border-radius:8px;opacity:.6;border:2px solid transparent;cursor:pointer}
+.ficha-in .gal-t img.on{opacity:1;border-color:var(--ci)}
+.ficha-in h3{font-family:var(--disp);font-size:24px;margin:10px 0 5px;line-height:1.25;letter-spacing:.3px}
+.ficha-in .curio{font-size:14px;color:#43595c;line-height:1.5;clear:none}
+.ficha-in ul.lug{list-style:none;margin:10px 0 0;padding:0}
+.ficha-in .lug li{position:relative;padding:0 0 9px 15px;font-size:12.5px;line-height:1.45;color:#43595c}
+.ficha-in .lug li::before{content:'';position:absolute;left:2px;top:5.5px;width:6.5px;height:6.5px;border-radius:50%;background:var(--ci)}
+.ficha-in .lug li b{color:var(--petroleo)}
+.ficha-in .lug .ld{color:var(--gris);font-size:12px}
+.ficha-in .lug .lx{display:block;color:var(--teal);font-size:11.5px;font-weight:700;margin-top:1px}
+/* platos de Sabores Tucumanos: bullet con foto + título + lugar */
+.ficha-in .lug.comi li{display:flex;align-items:center;gap:11px;padding:0 0 10px 0}
+.ficha-in .lug.comi li::before{display:none}
+.ficha-in .lug.comi li>img{width:52px;height:52px;border-radius:13px;flex:none;object-fit:cover;border:2px solid var(--ci)}
+.ficha-in .lug.comi li>span{flex:1;min-width:0}
+.ficha-in .lug.comi .ld{display:block}
+.ficha-in .lug.comi li b{font-size:12.5px}
+.ficha-in .metaI{font-size:12px;color:var(--gris);margin-top:9px;clear:both}
+.ficha-in .metaI a{color:var(--teal);text-decoration:none;font-weight:800}
+.overlay-cam{position:fixed;inset:0;z-index:80;background:#0b1617;display:flex;align-items:center;justify-content:center;color:#fff;flex-direction:column;gap:14px;font-weight:700}
+.frame{width:225px;height:225px;border:3px solid var(--amar);border-radius:20px;position:relative;animation:pulse 1.2s infinite;box-shadow:0 0 42px rgba(226,206,15,.35)}
+.visor-ag{position:relative;width:min(78vw,300px);aspect-ratio:1/1;margin:10px auto;border-radius:18px;overflow:hidden;background:#0b1617}
+.visor-ag video{width:100%;height:100%;object-fit:cover;display:block}
+.visor-ag .ag-frame{position:absolute;inset:11%;border:3px solid var(--amar);border-radius:16px;animation:pulse 1.2s infinite;box-shadow:0 0 42px rgba(226,206,15,.35);pointer-events:none}
+.ag-datos{background:#fff;border:2px solid var(--linea);border-radius:12px;padding:10px 12px;margin:10px auto 4px;font-size:12.5px;font-weight:600;display:grid;gap:5px;text-align:left;width:100%;box-sizing:border-box}
+.ag-datos a{color:var(--teal);text-decoration:none;font-weight:800}
+.ag-datos .ag-dato{display:flex;align-items:baseline;gap:6px}
+@keyframes pulse{50%{transform:scale(1.05)}}
+
+/* ---------- premios ---------- */
+.premio{display:flex;align-items:center;gap:12px;background:var(--papel);border-radius:16px;padding:14px;margin-bottom:11px;border:2px solid var(--linea);box-shadow:3px 3px 0 rgba(0,55,63,.08)}
+.premio .n{width:44px;height:44px;border-radius:12px;background:var(--petroleo);color:var(--amar);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-size:19px;flex:0 0 auto}
+.premio.done{border-color:var(--teal);background:#EFF6F0}
+.premio.done .n{background:var(--teal);color:#fff}
+.premio .d b{font-size:14px}
+.premio .d .req{font-size:11.5px;color:var(--gris);margin-top:2px}
+.codigo{font-family:'Space Mono',monospace;font-size:16px;letter-spacing:2px;background:var(--petroleo);color:var(--amar);padding:5px 11px;border-radius:9px;font-weight:700;display:inline-block;margin-top:6px}
+.foot{margin-top:28px;font-size:10px;color:var(--gris);text-align:center;line-height:1.7;letter-spacing:.4px}
+
+/* ---------- toast (sello de tinta) ---------- */
+#toast{position:fixed;left:10px;right:10px;bottom:80px;max-width:400px;margin:0 auto;background:var(--petroleo);color:#fff;padding:14px 17px;border-radius:15px;font-size:13.5px;z-index:90;box-shadow:4px 4px 0 rgba(0,0,0,.35);text-align:center;opacity:0;transition:.25s;pointer-events:none;white-space:pre-line;border:2px solid var(--amar);font-weight:600}
+#toast.on{opacity:1}
+.stampanim{position:fixed;inset:0;z-index:95;display:none;align-items:center;justify-content:center}
+.stampanim img{width:215px;animation:sellazo .95s cubic-bezier(.25,1.4,.4,1)}
+@keyframes sellazo{0%{transform:scale(2.7) rotate(-9deg);opacity:0}55%{transform:scale(.9) rotate(2deg);opacity:1}100%{transform:scale(1) rotate(-3deg)}}
+.breve-note{font-size:10.5px;background:#FBF3DC;border:1.5px dashed #C9B26A;border-radius:11px;padding:9px 11px;color:#6d5a12;margin-top:11px;text-align:center;font-weight:600;line-height:1.5}
+.presta{background:#fff;border:1.5px solid var(--linea);border-left:5px solid var(--teal);border-radius:12px;padding:10px 12px;margin-top:11px}
+.presta-t{font-size:9.5px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-bottom:6px}
+.presta .fila{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:3px 0}
+.presta .fila+.fila{border-top:1px dashed var(--linea)}
+.presta .fila .n{font-weight:800;font-size:12px}
+.presta .fila .lg{font-family:'Space Mono',monospace;font-size:10px;color:var(--gris)}
+.presta .fila a{font-size:12px;font-weight:700;color:var(--petroleo);text-decoration:none;white-space:nowrap}
+.presta-sin{border-left-color:#C9B26A;background:#FBF3DC;color:#6d5a12;font-size:12px;font-weight:600;line-height:1.5}
+.presta .presta-o{font-size:10px;color:var(--gris);margin-top:7px;font-weight:600}
+/* ---------- panel datos (Modo Ente) ---------- */
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.kpi{background:var(--papel);border:2px solid var(--petroleo);border-radius:14px;padding:10px 12px;box-shadow:3px 3px 0 rgba(0,55,63,.12)}
+.kpi .v{font-family:var(--disp);font-size:22px;color:var(--teal);letter-spacing:.5px;line-height:1.1}
+.kpi .l{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--gris);margin-top:3px;line-height:1.35}
+.cta-paso{display:flex;align-items:center;gap:11px;margin-top:10px;background:#FFF6D6;border-radius:16px;padding:12px 13px;cursor:pointer;box-shadow:3px 3px 0 rgba(0,55,63,.1);transition:transform .12s}
+.cta-paso:active{transform:scale(.98)}
+.cta-paso .flechita{font-weight:800;color:var(--petroleo);font-size:17px;flex:0 0 auto}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="fondo"></div>
+  <div class="fila-logos">
+    <img class="ett" src="assets/ett.png" alt="Tucumán Tiene Todo">
+    <img src="assets/verano2027.png" alt="Verano 2027">
+  </div>
+  <div class="titulo-folio">El Juego del Verano</div>
+  <div class="bajada">Descubrí el diario de Wayki</div>
+</header>
+
+<!-- ONBOARDING -->
+<section id="v-on" class="vista">
+  <img class="logo" src="assets/logojuego.png" alt="El Juego del Verano">
+  <div class="mont-cont">
+    <h1>¡Hola! Soy <b>Wayki</b></h1>
+    <p>Recorré Tucumán, sellá tu diario y ganá premios reales.</p>
+    <button class="btn btn-social" onclick="loginSocial('redes')"><span class="soc-trio"><span class="soc-ic g"><svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg></span><span class="soc-ic ig"><svg viewBox="0 0 448 512" fill="#fff"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></span><span class="soc-ic fb"><svg viewBox="0 0 512 512" fill="#1877F2"><path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256c0 121.6 87.6 223.3 203 245.6v-173h-61.2v-72.6H203V203.5c0-60.4 35.9-93.8 91.1-93.8 26.4 0 53.9 4.7 53.9 4.7v59.4h-30.3c-29.9 0-39.2 18.5-39.2 37.5v45.2h66.7l-10.7 72.6H278.5v173C394.4 479.3 512 377.6 512 256z"/></svg></span></span>Entrar con tus redes</button>
+    <button class="btn btn-ghost" style="background:transparent;border-color:rgba(255,255,255,.7);color:#fff;box-shadow:none" onclick="loginSocial('invitado')">Entrar como invitado</button>
+    <button class="btn btn-ghost" onclick="comoJugar()">¿Primera vez? Mirá cómo se juega (30 seg)</button>
+    <p style="font-size:11px;color:rgba(255,255,255,.75);margin-top:11px">Entrás en un toque. Los datos para premios te los pide Ajustes ⚙, cuando quieras.<br>Los sellos se activan con GPS en cada punto (o QR de respaldo).</p>
+    <img class="ett-chico" src="assets/ett.png" alt="Ente Tucumán Turismo">
+  </div>
+</section>
+
+<!-- HOME DIARIO -->
+<section id="v-home" class="vista hidden">
+  <div class="rango-box" onclick="verRangos()">
+    <div class="rango-quien"><span class="quien-izq"><span class="quien-av hidden" id="rango-av"></span><span class="quien-nom" id="rango-nom-u">—</span></span><span class="quien-grp hidden" id="rango-grp"></span></div>
+    <div class="rango-linha"><span class="rn" id="rango-nom">Compañero</span><span id="rango-cont">0/41</span></div>
+    <div class="barra"><i id="rango-barra" style="width:0%"></i></div>
+    <div class="next" id="rango-next">Te faltan 3 sellos para tu primer premio</div>
+    <div class="next" id="rango-disp" style="margin-top:3px"></div>
+  </div>
+
+  <div class="cta-paso" onclick="primerPaso()">
+    <div style="flex:1"><b style="font-size:14px;display:block">Tu primer paso: un punto cerca de vos</b><div class="next" style="margin-top:2px">Elegí un sello de la lista, fijate cómo llegar en su ficha y sellalo con el check-in al llegar.</div></div>
+    <span class="flechita">↓</span>
+  </div>
+
+  <h2 class="sec"><img class="icn" src="assets/wayki-icono.png" alt="">Sellos de Wayki</h2>
+  <div class="chips-circuitos" id="chips"></div>
+  <div class="grid-sellos" id="grid"></div>
+
+  <h2 class="sec"><svg class="icn" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="currentColor"/><path d="M12 6.8l1.6 3.3 3.6.4-2.7 2.5.7 3.5-3.2-1.8-3.2 1.8.7-3.5-2.7-2.5 3.6-.4Z" fill="var(--amar)"/></svg>Sumá doble · sellos especiales</h2>
+  <div class="noct-card" onclick="abrirNocturno()">
+    <img src="assets/wayki-dormido.png" alt="">
+    <div style="flex:1"><b style="font-size:14px">Dormiste en Tucumán</b><div class="next">N1 · check-in en tu alojamiento</div></div>
+    <span class="badge" id="noct-badge">x2</span>
+  </div>
+  <div class="noct-card" onclick="abrAgencia()">
+    <img src="assets/wayki-guia.png" alt="">
+    <div style="flex:1"><b style="font-size:14px">Viajaste con agencia receptiva</b><div class="next">Elegí tu agencia → escaneá su QR al llegar → tu próximo check-in vale x2</div></div>
+    <span class="badge">x2</span>
+  </div>
+  <div class="noct-card" onclick="abrGuiaPrest()">
+    <img src="assets/wayki-excurcionista.png" alt="">
+    <div style="flex:1"><b style="font-size:14px">En manos de quienes saben</b><div class="next">Elegí guía o prestador del padrón → sellás x2</div></div>
+    <span class="badge">x2</span>
+  </div>
+</section>
+
+<!-- MAPAS / FOLLETOS -->
+<section id="v-mapas" class="vista hidden">
+  <h2 class="si" style="font-family:var(--disp);font-size:26px;margin-top:2px;letter-spacing:.5px"><svg class="icnB" viewBox="0 0 24 24" aria-hidden="true"><polygon points="3,5 9,3.2 9,21 3,20.2" fill="currentColor"/><polygon points="9,3.2 15,5.2 15,22 9,21" fill="currentColor" opacity=".75"/><polygon points="15,5.2 21,3.4 21,20.4 15,22" fill="currentColor"/><path d="M10.4 8.4 12.9 11.6 14.5 16" fill="none" stroke="var(--amar)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="14.8" cy="16.8" r="1.1" fill="var(--amar)"/></svg>Mapas y folletos</h2>
+  <p class="next" style="font-size:12.5px">Los folletos oficiales del Ente por circuito, 2026. Van con mapa de cada zona, servicios y teléfonos — funcionan en papel y offline en el celular. Los sellos del diario salen de acá.</p>
+  <a class="noct-card" href="assets/folletos/folleto-ciudad.pdf" target="_blank" rel="noopener">
+    <img src="assets/log-exp-ciudad.png" alt="">
+    <div style="flex:1"><b style="font-size:14px">Ciudad Histórica</b><div class="next">San Miguel a pie: Casa Histórica, 9 de Julio, museos</div><div class="cnt-c" data-cir="A" onclick="irCircuito('A')">5 sellos</div></div>
+    <span class="badge">PDF ↗</span>
+  </a>
+  <a class="noct-card" href="assets/folletos/folleto-yungas.pdf" target="_blank" rel="noopener">
+    <img src="assets/log-exp-yungas.png" alt="">
+    <div style="flex:1"><b style="font-size:14px">Yungas</b><div class="next">Villa Nougués, San Javier, Yerba Buena, El Cadillal</div><div class="cnt-c" data-cir="B" onclick="irCircuito('B')">9 sellos</div></div>
+    <span class="badge">PDF ↗</span>
+  </a>
+  <a class="noct-card" href="assets/folletos/folleto-calchaqui.pdf" target="_blank" rel="noopener">
+    <img src="assets/log-exp-calchaqui.png" alt="">
+    <div style="flex:1"><b style="font-size:14px">Valles Calchaquíes</b><div class="next">Tafí del Valle, El Mollar, Amaicha, Quilmes, Colalao</div><div class="cnt-c" data-cir="C" onclick="irCircuito('C')">13 sellos</div></div>
+    <span class="badge">PDF ↗</span>
+  </a>
+  <a class="noct-card" href="assets/folletos/folleto-choromoro.pdf" target="_blank" rel="noopener">
+    <img src="assets/log-exp-choromoro.png" alt="">
+    <div style="flex:1"><b style="font-size:14px">Valle de Choromoro</b><div class="next">San Pedro de Colalao, Trancas, Hualinchay</div><div class="cnt-c" data-cir="D" onclick="irCircuito('D')">7 sellos</div></div>
+    <span class="badge">PDF ↗</span>
+  </a>
+  <a class="noct-card" href="assets/folletos/folleto-sur.pdf" target="_blank" rel="noopener">
+    <img src="assets/log-exp-sur.png" alt="">
+    <div style="flex:1"><b style="font-size:14px">Sur Tucumano</b><div class="next">Famaillá, Simoca, Monteros, Escaba, Aconquija</div><div class="cnt-c" data-cir="E" onclick="irCircuito('E')">7 sellos</div></div>
+    <span class="badge">PDF ↗</span>
+  </a>
+  <a class="noct-card" href="assets/folletos/folleto-este.pdf" target="_blank" rel="noopener">
+    <img src="assets/log-exp-este.png" alt="">
+    <div style="flex:1"><b style="font-size:14px">Circuito Este</b><div class="next">Folleto 2026 · la sierra cerca del capital (Cadillal, Tafí Viejo, Lules)</div></div>
+    <span class="badge">PDF ↗</span>
+  </a>
+  <p class="next" style="margin-top:12px;font-size:11.5px"><svg class="ie" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.6" y="2.8" width="10.8" height="4.8" rx="1" fill="currentColor"/><path d="M5 8.6h14A1.6 1.6 0 0 1 20.6 10.2v6.2a1.4 1.4 0 0 1-1.4 1.4h-2V20H6.8v-2.2h-2a1.4 1.4 0 0 1-1.4-1.4v-6.2A1.6 1.6 0 0 1 5 8.6Z" fill="currentColor"/><rect x="8.4" y="14.2" width="7.2" height="4" fill="var(--papel)"/></svg> <b>Block de los 5 circuitos, imprimible</b> — la versión en una hoja para imprimir en casa: <a href="assets/folletos/block-circuitos-2026.pdf" target="_blank" rel="noopener" style="font-weight:800">descargar PDF ↗</a></p>
+  <div class="foot">EL JUEGO DEL VERANO — TUCUMÁN · prototipo v1.3<br>Registro gratuito · #ElJuegoDelVerano · #JugáElVerano</div>
+</section>
+
+<!-- PREMIOS -->
+<section id="v-premios" class="vista hidden">
+  <h2 class="si" style="font-family:var(--disp);font-size:26px;margin-top:2px;letter-spacing:.5px"><svg class="icnB" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.8 3h10.4v6a5.2 5.2 0 0 1-10.4 0V3Z" fill="currentColor"/><path d="M6.6 4.6H4.4a2.7 2.7 0 0 0 3.1 4.4" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M17.4 4.6h2.2a2.7 2.7 0 0 1-3.1 4.4" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M10.7 13.6h2.6l.5 2.6h-3.6l.5-2.6Z" fill="currentColor"/><rect x="8.2" y="16.4" width="7.6" height="2" rx=".6" fill="#1E3B40"/><rect x="7" y="18.6" width="10" height="2.2" rx=".8" fill="#1E3B40"/></svg>Escalera de premios</h2>
+  <p class="next" style="font-size:12.5px">Canje físico en la Casa Central del Ente y comercios adheridos. Los sellos no se gastan: se acumulan.</p>
+  <div id="lista-premios"></div>
+  <h2 class="sec"><svg class="icn" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4c-4 0-7.2 3.2-7.2 7.1 0 5.3 7.2 12.1 7.2 12.1s7.2-6.8 7.2-12.1c0-3.9-3.2-7.1-7.2-7.1Z" fill="currentColor"/><circle cx="12" cy="9.5" r="2.6" fill="var(--amar)"/></svg>¿Dónde canjeo?</h2>
+  <div class="rango-box" style="font-size:12.5px;line-height:1.8;box-shadow:none">
+    <svg class="ie" viewBox="0 0 24 24" aria-hidden="true"><rect x="4.6" y="2.6" width="14.8" height="18.8" rx="1.3" fill="currentColor"/><rect x="7.6" y="5.6" width="2.6" height="2.6" rx=".4" fill="var(--papel)"/><rect x="13.8" y="5.6" width="2.6" height="2.6" rx=".4" fill="var(--papel)"/><rect x="7.6" y="10.4" width="2.6" height="2.6" rx=".4" fill="var(--papel)"/><rect x="13.8" y="10.4" width="2.6" height="2.6" rx=".4" fill="var(--papel)"/><rect x="10.7" y="15.2" width="2.6" height="6.2" fill="var(--papel)"/></svg> <b>Oficina principal del juego</b> — Casa Central del Ente<br>&nbsp;&nbsp;&nbsp;&nbsp;24 de Septiembre 486, San Miguel de Tucumán · L–V 9–20 · Sáb 9–18 · Dom 9–14<br>
+    <svg class="ie" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 4.2a1.8 1.8 0 0 1 1.8-1.8h13.2a1.8 1.8 0 0 1 1.8 1.8v9.4a1.8 1.8 0 0 1-1.8 1.8H12l-5.2 4v-4H5.4a1.8 1.8 0 0 1-1.8-1.8V4.2Z" fill="currentColor"/></svg> <b>WhatsApp del juego</b> — wa.me/5493812133639<br>
+    <svg class="ie" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.8" y="5.4" width="18.4" height="13.2" rx="1.8" fill="currentColor"/><path d="M4.2 7.4 12 12.8l7.8-5.4" fill="none" stroke="var(--papel)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg> <b>informes@tucumanturismo.gob.ar</b><br>
+    <svg class="ie" viewBox="0 0 24 24" aria-hidden="true"><rect x="4.6" y="2.6" width="14.8" height="18.8" rx="1.3" fill="currentColor"/><rect x="7.6" y="5.6" width="2.6" height="2.6" rx=".4" fill="var(--papel)"/><rect x="13.8" y="5.6" width="2.6" height="2.6" rx=".4" fill="var(--papel)"/><rect x="10.7" y="15.2" width="2.6" height="6.2" fill="var(--papel)"/></svg> <b>Oficina de informes</b> — Tafí del Valle, todos los días 8–22<br>
+    <svg class="ie" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h12v7.2A6 6 0 0 1 11 18.2 6 6 0 0 1 5 12.2V5Z" fill="currentColor"/><path d="M17 7.6h2.2a2.3 2.3 0 0 1 0 4.6H17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M8.4 2.6c.9.9.9 1.9 0 2.8M12.6 2.6c.9.9.9 1.9 0 2.8" fill="none" stroke="var(--amar)" stroke-width="1.4" stroke-linecap="round"/></svg> <b>Comercios adheridos</b> — mapa de canje (Temporada 0)
+  </div>
+  <div class="foot">EL JUEGO DEL VERANO — TUCUMÁN · prototipo v1.3<br>Registro gratuito · #ElJuegoDelVerano · #JugáElVerano</div>
+</section>
+
+<!-- REGISTRO (obligatorio antes del diario) -->
+<section id="v-reg" class="vista hidden">
+  <h2 id="reg-titulo" class="si" style="font-family:var(--disp);font-size:27px;margin-top:2px;justify-content:center;color:var(--petroleo)"><svg class="icnB" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7.6" r="3.4" fill="currentColor"/><path d="M4.4 20.2c.8-4.2 4-6.4 7.6-6.4s6.8 2.2 7.6 6.4c.2.9-.5 1.6-1.4 1.6H5.8c-.9 0-1.6-.7-1.4-1.6Z" fill="currentColor"/></svg>Tu perfil</h2>
+  <p class="next" style="font-size:12.5px;max-width:300px;margin:8px auto 16px;text-align:center">Opcional y en tu tiempo. Los pedimos para que puedas <b>canjear premios</b> y enterarte de temporadas.</p>
+  <div class="reg-box">
+   <form onsubmit="return registrar(event)">
+    <div class="fld"><label for="f-nom">Tu nombre y apellido</label><input id="f-nom" required placeholder="Ej: Marta Ruiz"></div>
+    <div class="fld"><label for="f-tel">Celular (WhatsApp)</label><input id="f-tel" required type="tel" inputmode="tel" placeholder="Ej: 381 555 0000"></div>
+    <div class="fld"><label for="f-mail">Email <span style="font-weight:400;color:var(--gris)">(opcional)</span></label><input id="f-mail" type="email" placeholder="Para avisos de premios"><small style="display:block" class="next">Si no lo llenás, te avisamos por WhatsApp.</small></div>
+    <div class="fld"><label for="f-orig">¿De dónde jugás?</label>
+     <select id="f-orig">
+      <option value="SMT">San Miguel de Tucumán</option>
+      <option value="TUC" selected>Interior de Tucumán</option>
+      <option value="AMBA">Buenos Aires / GBA (AMBA)</option>
+      <option value="NOA">Otra provincia del NOA</option>
+      <option value="AR">Otra provincia argentina</option>
+      <option value="EX">Exterior</option>
+     </select></div>
+    <div class="fld"><label for="f-noches">¿Cuántas noches pensás quedarte?</label>
+     <select id="f-noches">
+      <option>1 noche</option>
+      <option selected>2 a 3 noches</option>
+      <option>4 a 7 noches</option>
+      <option>8 noches o más</option>
+      <option>No me alojo (visita del día)</option>
+     </select></div>
+    <div class="fld"><label for="f-aloj">¿Dónde pensás alojarte?</label>
+     <select id="f-aloj" onchange="verAloj()">
+      <option value="oficial">Alojamiento de la red oficial ETT</option>
+      <option value="parahotel">Parahotelería (cabañas / apart)</option>
+      <option value="familia">Casa de familia o amigos</option>
+      <option value="camping">Camping</option>
+      <option value="ns" selected>Aún no lo sé</option>
+     </select></div>
+    <div class="fld hidden" id="f-aloj-oficial"><label for="f-hotel">Elegí tu alojamiento de la red</label>
+     <input id="f-hotel" list="lista-hoteles" placeholder="Escribí para buscar (ej: Tafí)…" autocomplete="off">
+     <datalist id="lista-hoteles"></datalist>
+     <small class="next"><svg class="ie" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.55 1.1 6.45L12 17.4l-5.8 3.05 1.1-6.45L2.6 9.45l6.5-.95L12 2.6Z" fill="var(--amar)" stroke="var(--petroleo)" stroke-width="1.4"/></svg> Bonus: al pernoctar en la red oficial tu sello nocturno vale <b>x2</b>.</small></div>
+    <div class="fld"><label for="f-per">¿Quién juega este verano?</label>
+     <select id="f-per">
+      <option>Solo yo</option>
+      <option>Con mi pareja</option>
+      <option>Con chicos (en familia)</option>
+      <option>Con amigos</option>
+     </select></div>
+    <label class="chk"><input type="checkbox" id="f-acep" required> Acepto las <b>bases del juego</b> y el tratamiento de mis datos (Ley 25.326). Solo se usan para premios y avisos del verano.</label>
+    <label class="chk" style="margin-bottom:4px"><input type="checkbox" id="f-news"> Sumame las <b>novedades del Ente Tucumán Turismo</b></label>
+    <button class="btn btn-principal" type="submit">GUARDAR MIS DATOS</button>
+    <p class="next" style="font-size:11px;text-align:center;margin-top:10px"><svg class="ie" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.2 2.8h5.6v2.6h-.9v4.3l4.3 8.2a2.2 2.2 0 0 1-1.9 3.3H7.7a2.2 2.2 0 0 1-1.9-3.3L10 9.7V5.4h-.8V2.8Z" fill="currentColor"/><path d="M8.9 15.6c2 1 4.2 1 6.2 0l1.6 3.1c.4.7-.1 1.5-.9 1.5H8.2c-.8 0-1.3-.8-.9-1.5l1.6-3.1Z" fill="var(--amar)"/></svg> PROTOTIPO: estos datos no viajan a ningún servidor.</p>
+   </form>
+  </div>
+  <button class="btn btn-ghost" style="margin:14px auto 0" onclick="go('ajus')">◀ Volver</button>
+</section>
+
+<!-- AJUSTES -->
+<section id="v-ajus" class="vista hidden">
+  <h2 class="si" style="font-family:var(--disp);font-size:27px;margin-top:2px;letter-spacing:.5px"><svg class="icnB" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.4 13c.04-.32.06-.66.06-1s-.02-.68-.07-1l2.1-1.65c.19-.15.24-.42.12-.64l-2-3.46a.5.5 0 0 0-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65A.49.49 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.61.25-1.17.59-1.69.98l-2.49-1a.5.5 0 0 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.05.32-.07.66-.07 1s.02.68.07 1l-2.1 1.65c-.19.15-.24.42-.12.64l2 3.46c.14.24.42.34.61.22l2.49-1c.52.4 1.08.73 1.69.98l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46a.5.5 0 0 0-.12-.64L19.4 13ZM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z"/></svg>Ajustes</h2>
+  <h2 class="sec"><svg class="icn" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7.6" r="3.4" fill="currentColor"/><path d="M4.4 20.2c.8-4.2 4-6.4 7.6-6.4s6.8 2.2 7.6 6.4c.2.9-.5 1.6-1.4 1.6H5.8c-.9 0-1.6-.7-1.4-1.6Z" fill="currentColor"/></svg>Tu registro</h2>
+  <div class="rango-box" style="box-shadow:none;font-size:13px;line-height:1.9" id="aj-reg"></div>
+  <button class="btn btn-ghost" style="margin:10px auto 0" onclick="editarReg()"><svg class="ie" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.3 19.7l.9-3.6L14.5 6.8l2.7 2.7L7.9 18.8l-3.6.9Z" fill="currentColor"/><path d="M16 3.9a1.9 1.9 0 0 1 2.7 0l1.4 1.4a1.9 1.9 0 0 1 0 2.7l-1.6 1.6-2.7-2.7L16 3.9Z" fill="currentColor"/></svg> Completar / editar mis datos</button>
+  <h2 class="sec" style="margin-top:26px"><svg class="icn" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8.6" cy="8.2" r="3" fill="currentColor"/><circle cx="16.4" cy="9.2" r="2.4" fill="currentColor" opacity=".55"/><path d="M2.6 19.8c.7-3.6 3.2-5.6 6-5.6 2.9 0 5.3 2 6 5.6.2.9-.5 1.6-1.4 1.6H4c-.9 0-1.6-.7-1.4-1.6Z" fill="currentColor"/><path d="M16.6 14.6c2.3.3 4.2 1.9 4.8 5 .1.6-.3 1.2-1 1.2h-3.2" fill="currentColor" opacity=".55"/></svg>Tu grupo</h2>
+  <div id="aj-grupo"></div>
+  <h2 class="sec" style="margin-top:26px"><svg class="icn" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="currentColor"/><circle cx="12" cy="7.8" r="1.25" fill="var(--papel)"/><rect x="10.95" y="10.4" width="2.1" height="6.2" rx="1.05" fill="var(--papel)"/></svg>Demo</h2>
+  <button class="btn btn-ghost" style="margin:0 auto" onclick="reset()"><svg class="ie" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.2 2.8h5.6v2.6h-.9v4.3l4.3 8.2a2.2 2.2 0 0 1-1.9 3.3H7.7a2.2 2.2 0 0 1-1.9-3.3L10 9.7V5.4h-.8V2.8Z" fill="currentColor"/><path d="M8.9 15.6c2 1 4.2 1 6.2 0l1.6 3.1c.4.7-.1 1.5-.9 1.5H8.2c-.8 0-1.3-.8-.9-1.5l1.6-3.1Z" fill="var(--amar)"/></svg> Reiniciar la partida</button>
+  <input type="file" id="f-foto" accept="image/*" hidden onchange="fotoElegida(event)">
+  <input type="file" id="g-foto" accept="image/*" hidden onchange="fotoElegida(event)">
+  <input type="file" id="s-foto" accept="image/*" hidden onchange="selfieElegida(event)">
+  <h2 class="sec"><svg class="icn" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="13" width="4.4" height="7" rx="1" fill="currentColor"/><rect x="9.8" y="9" width="4.4" height="11" rx="1" fill="currentColor"/><rect x="15.6" y="4" width="4.4" height="16" rx="1" fill="currentColor"/></svg>Modo Ente</h2>
+  <button class="btn btn-ghost" style="margin:0 auto" onclick="go('datos');renderDatos()"><svg class="ie" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="13" width="4.4" height="7" rx="1" fill="currentColor"/><rect x="9.8" y="9" width="4.4" height="11" rx="1" fill="currentColor"/><rect x="15.6" y="4" width="4.4" height="16" rx="1" fill="currentColor"/></svg> Panel de datos del verano</button>
+  <div class="foot">EL JUEGO DEL VERANO — TUCUMÁN · prototipo v1.3<br>#ElJuegoDelVerano · #JugáElVerano</div>
+</section>
+
+<!-- DATOS (Modo Ente) -->
+<section id="v-datos" class="vista hidden">
+  <h2 class="si" style="font-family:var(--disp);font-size:26px;margin-top:2px;letter-spacing:.5px"><svg class="icnB" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="13" width="4.4" height="7" rx="1" fill="currentColor"/><rect x="9.8" y="9" width="4.4" height="11" rx="1" fill="currentColor"/><rect x="15.6" y="4" width="4.4" height="16" rx="1" fill="currentColor"/></svg>Datos del verano</h2>
+  <p class="next" style="font-size:12.5px">Cada sello y cada noche es un dato limpio — con hora, punto y dispositivo. La telemetría que el juego produce solo, todos los días del verano.</p>
+  <div class="kpis">
+    <div class="kpi"><div class="v" id="d-sellos">—</div><div class="l">Sellos en el diario</div></div>
+    <div class="kpi"><div class="v" id="d-noct">—</div><div class="l">Pernoctes acreditados</div></div>
+    <div class="kpi"><div class="v" id="d-circo">—</div><div class="l">Circuitos visitados</div></div>
+    <div class="kpi"><div class="v" id="d-yapa">—</div><div class="l">Yapas (UGC a IG)</div></div>
+  </div>
+  <h2 class="sec"><svg class="icn" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.4 5.2c0 1.7 3.4 3.1 7.6 3.1s7.6-1.4 7.6-3.1v13.6c0 1.7-3.4 3.1-7.6 3.1s-7.6-1.4-7.6-3.1V5.2Z" fill="currentColor"/><ellipse cx="12" cy="5.2" rx="7.6" ry="3" fill="currentColor"/><ellipse cx="12" cy="5.2" rx="7.6" ry="3" fill="none" stroke="var(--papel)" stroke-width="1.4"/><path d="M4.4 12c0 1.7 3.4 3.1 7.6 3.1s7.6-1.4 7.6-3.1" fill="none" stroke="var(--papel)" stroke-width="1.4"/></svg>Producción real (base del juego)</h2>
+  <div class="rango-box" style="box-shadow:none;font-size:12.5px;line-height:1.9" id="d-sb"><svg class="ie" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="1.9" fill="currentColor"/><path d="M8.2 8.2a5.4 5.4 0 0 0 0 7.6M15.8 8.2a5.4 5.4 0 0 1 0 7.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Conectando con la base…</div>
+  <button class="btn btn-ghost" style="margin:14px auto 0" onclick="go('ajus');renderAjustes()">◀ Volver a Ajustes</button>
+</section>
+
+<!-- FICHA -->
+<div id="ficha" class="ficha hidden" onclick="event.target===this&&cierraFicha()">
+  <div class="ficha-in" id="ficha-in"></div>
+</div>
+
+<!-- cámara QR simulada -->
+<div id="cam" class="overlay-cam hidden">
+  <div class="frame"></div>
+  <div>Buscando el QR del punto…</div>
+  <div style="font-size:11px;opacity:.6;font-weight:400">(simulación de cámara — prototipo)</div>
+</div>
+
+<!-- sello stamp -->
+<div class="stampanim" id="stamp"><img src="assets/wayki-pose-celebrando.png" alt=""></div>
+<div id="toast"></div>
+
+<nav class="tabs hidden" id="tabs">
+  <button data-v="home" onclick="go('home')"><img class="ic" src="assets/wayki-icono.png" alt="Wayki">Mi diario</button>
+  <button data-v="mapas" onclick="go('mapas')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="3,5 9,3.2 9,21 3,20.2" fill="currentColor"/><polygon points="9,3.2 15,5.2 15,22 9,21" fill="currentColor" opacity=".75"/><polygon points="15,5.2 21,3.4 21,20.4 15,22" fill="currentColor"/><path d="M10.4 8.4 12.9 11.6 14.5 16" fill="none" stroke="var(--amar)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="14.8" cy="16.8" r="1.1" fill="var(--amar)"/></svg>Mapas</button>
+  <button data-v="premios" onclick="go('premios')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.8 3h10.4v6a5.2 5.2 0 0 1-10.4 0V3Z" fill="currentColor"/><path d="M6.6 4.6H4.4a2.7 2.7 0 0 0 3.1 4.4" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M17.4 4.6h2.2a2.7 2.7 0 0 1-3.1 4.4" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M10.7 13.6h2.6l.5 2.6h-3.6l.5-2.6Z" fill="currentColor"/><rect x="8.2" y="16.4" width="7.6" height="2" rx=".6" fill="#1E3B40"/><rect x="7" y="18.6" width="10" height="2.2" rx=".8" fill="#1E3B40"/></svg>Premios</button>
+  <button data-v="ajus" onclick="renderAjustes();go('ajus')"><svg class="ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.4 13c.04-.32.06-.66.06-1s-.02-.68-.07-1l2.1-1.65c.19-.15.24-.42.12-.64l-2-3.46a.5.5 0 0 0-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65A.49.49 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.61.25-1.17.59-1.69.98l-2.49-1a.5.5 0 0 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.05.32-.07.66-.07 1s.02.68.07 1l-2.1 1.65c-.19.15-.24.42-.12.64l2 3.46c.14.24.42.34.61.22l2.49-1c.52.4 1.08.73 1.69.98l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46a.5.5 0 0 0-.12-.64L19.4 13ZM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z"/></svg>Ajustes</button>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="cfg.js"></script>
+<script>
+/* ============ CROMÁTICA (Cromática institucional.pdf) ============ */
+/* Folleto oficial 2026 del Ente por circuito (sección Mapas · assets/folletos/). */
+const FOLLETO={A:'folleto-ciudad.pdf',B:'folleto-yungas.pdf',C:'folleto-calchaqui.pdf',D:'folleto-choromoro.pdf',E:'folleto-sur.pdf'};
+/* Iconografía flat unificada (misma familia que nav y títulos): fill currentColor + acentos --amar/--papel. class="ie" = inline del tamaño del texto. */
+const IE='class="ie" viewBox="0 0 24 24" aria-hidden="true"';
+const I={
+ pin:`<svg ${IE}><path d="M12 2.4c-4 0-7.2 3.2-7.2 7.1 0 5.3 7.2 12.1 7.2 12.1s7.2-6.8 7.2-12.1c0-3.9-3.2-7.1-7.2-7.1Z" fill="currentColor"/><circle cx="12" cy="9.5" r="2.6" fill="var(--amar)"/></svg>`,
+ map:`<svg ${IE}><polygon points="3,5 9,3.2 9,21 3,20.2" fill="currentColor"/><polygon points="9,3.2 15,5.2 15,22 9,21" fill="currentColor" opacity=".75"/><polygon points="15,5.2 21,3.4 21,20.4 15,22" fill="currentColor"/><path d="M10.4 8.4 12.9 11.6 14.5 16" fill="none" stroke="var(--amar)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="14.8" cy="16.8" r="1.1" fill="var(--amar)"/></svg>`,
+ doc:`<svg ${IE}><path d="M6.2 2.6h8.2l4.4 4.4v14.4H6.2V2.6Z" fill="currentColor"/><path d="M14.4 2.7v4.3h4.3" fill="none" stroke="var(--papel)" stroke-width="1.5"/></svg>`,
+ building:`<svg ${IE}><rect x="4.6" y="2.6" width="14.8" height="18.8" rx="1.3" fill="currentColor"/><rect x="7.6" y="5.6" width="2.6" height="2.6" rx=".4" fill="var(--papel)"/><rect x="13.8" y="5.6" width="2.6" height="2.6" rx=".4" fill="var(--papel)"/><rect x="7.6" y="10.4" width="2.6" height="2.6" rx=".4" fill="var(--papel)"/><rect x="13.8" y="10.4" width="2.6" height="2.6" rx=".4" fill="var(--papel)"/><rect x="10.7" y="15.2" width="2.6" height="6.2" fill="var(--papel)"/></svg>`,
+ chat:`<svg ${IE}><path d="M3.6 4.2a1.8 1.8 0 0 1 1.8-1.8h13.2a1.8 1.8 0 0 1 1.8 1.8v9.4a1.8 1.8 0 0 1-1.8 1.8H12l-5.2 4v-4H5.4a1.8 1.8 0 0 1-1.8-1.8V4.2Z" fill="currentColor"/></svg>`,
+ mail:`<svg ${IE}><rect x="2.8" y="5.4" width="18.4" height="13.2" rx="1.8" fill="currentColor"/><path d="M4.2 7.4 12 12.8l7.8-5.4" fill="none" stroke="var(--papel)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+ cup:`<svg ${IE}><path d="M5 5h12v7.2A6 6 0 0 1 11 18.2 6 6 0 0 1 5 12.2V5Z" fill="currentColor"/><path d="M17 7.6h2.2a2.3 2.3 0 0 1 0 4.6H17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M8.4 2.6c.9.9.9 1.9 0 2.8M12.6 2.6c.9.9.9 1.9 0 2.8" fill="none" stroke="var(--amar)" stroke-width="1.4" stroke-linecap="round"/></svg>`,
+ printer:`<svg ${IE}><rect x="6.6" y="2.8" width="10.8" height="4.8" rx="1" fill="currentColor"/><path d="M5 8.6h14A1.6 1.6 0 0 1 20.6 10.2v6.2a1.4 1.4 0 0 1-1.4 1.4h-2V20H6.8v-2.2h-2a1.4 1.4 0 0 1-1.4-1.4v-6.2A1.6 1.6 0 0 1 5 8.6Z" fill="currentColor"/><rect x="8.4" y="14.2" width="7.2" height="4" fill="var(--papel)"/></svg>`,
+ camera:`<svg ${IE}><path d="M9.4 6.6l1-1.8h3.2l1 1.8h4.2a1.6 1.6 0 0 1 1.6 1.6v9.2a1.6 1.6 0 0 1-1.6 1.6H5.6A1.6 1.6 0 0 1 4 17.4V8.2a1.6 1.6 0 0 1 1.6-1.6h3.8Z" fill="currentColor"/><circle cx="12" cy="12" r="3.4" fill="var(--amar)"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></svg>`,
+ camP:`<svg ${IE}><path d="M9.4 6.6l1-1.8h3.2l1 1.8h4.2a1.6 1.6 0 0 1 1.6 1.6v9.2a1.6 1.6 0 0 1-1.6 1.6H5.6A1.6 1.6 0 0 1 4 17.4V8.2a1.6 1.6 0 0 1 1.6-1.6h3.8Z" fill="#1E3B40"/><circle cx="12" cy="12" r="3.4" fill="#FBF6E4"/><circle cx="12" cy="12" r="1.4" fill="#1E3B40"/></svg>`,
+ post:`<svg ${IE}><path d="M3.8 10.2A4.8 4.8 0 0 1 8.6 5.4h5.2a5 5 0 0 1 5 5V19h-3.9v-8.6a1 1 0 0 0-1-1h-2.7V19H3.8v-8.8Z" fill="currentColor"/><rect x="6.2" y="8.6" width="4.8" height="2.6" rx=".8" fill="var(--amar)"/></svg>`,
+ star:`<svg ${IE}><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.55 1.1 6.45L12 17.4l-5.8 3.05 1.1-6.45L2.6 9.45l6.5-.95L12 2.6Z" fill="currentColor"/></svg>`,
+ gift:`<svg ${IE}><rect x="3.2" y="8.2" width="17.6" height="4.2" rx="1" fill="currentColor"/><rect x="5" y="13.4" width="14" height="8" rx="1.2" fill="currentColor"/><rect x="11" y="8.2" width="2" height="13.2" fill="var(--papel)"/><path d="M12 7.6C9.4 7.6 7.6 6.4 7.6 5.1 7.6 3.9 8.5 3 9.8 3 11.2 3 12 5 12 7.6Zm0 0c2.6 0 4.4-1.2 4.4-2.5C16.4 3.9 15.5 3 14.2 3 12.8 3 12 5 12 7.6Z" fill="currentColor"/></svg>`,
+ key:`<svg ${IE}><circle cx="6.4" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M10.4 12h10.4M17 12v3.6M20 12v2.4" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>`,
+ bed:`<svg ${IE}><path d="M3 5.6h2.3v5.7h13A2.7 2.7 0 0 1 21 14v6h-2.5v-2.2H5.5V20H3V5.6Z" fill="currentColor"/><path d="M6.4 8.3h9.2a2.4 2.4 0 0 1 2.4 2.4v.4H6.4V8.3Z" fill="currentColor"/><circle cx="8.6" cy="9.8" r="1.1" fill="var(--papel)"/></svg>`,
+ compass:`<svg ${IE}><circle cx="12" cy="12" r="9" fill="currentColor"/><path d="M12 5.6 13.9 10.1 18.4 12 13.9 13.9 12 18.4 10.1 13.9 5.6 12 10.1 10.1 12 5.6Z" fill="var(--amar)"/></svg>`,
+ users:`<svg ${IE}><circle cx="8.6" cy="7.6" r="3.3" fill="currentColor"/><path d="M3 19.6c.7-3.9 3.1-6 5.6-6s4.9 2.1 5.6 6c.1.8-.5 1.4-1.2 1.4H4.2c-.7 0-1.3-.6-1.2-1.4Z" fill="currentColor"/><path d="M13.9 8.5a3.1 3.1 0 1 1 .5 6.1M16.8 13.9c2.2.9 3.7 2.8 4.2 5.7.1.7-.4 1.4-1.2 1.4h-3.4" fill="currentColor" opacity=".55"/></svg>`,
+ ticket:`<svg ${IE}><path d="M3.4 8.2c0-.9.7-1.6 1.6-1.6h14c.9 0 1.6.7 1.6 1.6v1.9a2 2 0 0 0 0 3.8v1.9c0 .9-.7 1.6-1.6 1.6H5c-.9 0-1.6-.7-1.6-1.6v-1.9a2 2 0 0 0 0-3.8V8.2Z" fill="currentColor"/><path d="M14.6 7.4v9.2" fill="none" stroke="var(--papel)" stroke-width="1.4" stroke-dasharray="1.8 1.6"/></svg>`,
+ phone:`<svg ${IE}><path d="M6.9 3.2l2.7-.7c.8-.2 1.6.2 1.9 1l1 2.9c.2.7 0 1.4-.6 1.9l-1.5 1.2a11 11 0 0 0 4.6 4.6l1.2-1.5c.5-.6 1.2-.8 1.9-.6l2.9 1c.8.3 1.2 1.1 1 1.9l-.7 2.7a1.6 1.6 0 0 1-1.6 1.2C11.7 18.8 5.2 12.3 5.7 4.8a1.6 1.6 0 0 1 1.2-1.6Z" fill="currentColor"/></svg>`,
+ moon:`<svg ${IE}><path d="M20.4 14.2A8.8 8.8 0 0 1 9.8 3.6 9 9 0 1 0 20.4 14.2Z" fill="currentColor"/></svg>`,
+ flask:`<svg ${IE}><path d="M9.2 2.8h5.6v2.6h-.9v4.3l4.3 8.2a2.2 2.2 0 0 1-1.9 3.3H7.7a2.2 2.2 0 0 1-1.9-3.3L10 9.7V5.4h-.8V2.8Z" fill="currentColor"/><path d="M8.9 15.6c2 1 4.2 1 6.2 0l1.6 3.1c.4.7-.1 1.5-.9 1.5H8.2c-.8 0-1.3-.8-.9-1.5l1.6-3.1Z" fill="var(--amar)"/></svg>`,
+ door:`<svg ${IE}><rect x="4.6" y="2.8" width="14.8" height="18.4" rx="1.2" fill="currentColor"/><rect x="13" y="2.8" width="6.4" height="18.4" fill="var(--papel)"/><circle cx="10.6" cy="12.4" r="1.1" fill="var(--amar)"/></svg>`,
+ pencil:`<svg ${IE}><path d="M4.3 19.7l.9-3.6L14.5 6.8l2.7 2.7L7.9 18.8l-3.6.9Z" fill="currentColor"/><path d="M16 3.9a1.9 1.9 0 0 1 2.7 0l1.4 1.4a1.9 1.9 0 0 1 0 2.7l-1.6 1.6-2.7-2.7L16 3.9Z" fill="currentColor"/></svg>`,
+ bars:`<svg ${IE}><rect x="4" y="13" width="4.4" height="7" rx="1" fill="currentColor"/><rect x="9.8" y="9" width="4.4" height="11" rx="1" fill="currentColor"/><rect x="15.6" y="4" width="4.4" height="16" rx="1" fill="currentColor"/></svg>`,
+ waves:`<svg ${IE}><circle cx="12" cy="12" r="1.9" fill="currentColor"/><path d="M8.2 8.2a5.4 5.4 0 0 0 0 7.6M15.8 8.2a5.4 5.4 0 0 1 0 7.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
+};
+
+const CIR = {
+  A:{n:'Ciudad Histórica', logo:'assets/log-exp-ciudad.png',   col:'#004264'},
+  B:{n:'Yungas',           logo:'assets/log-exp-yungas.png',   col:'#52996C'},
+  C:{n:'Valles Calchaquíes',logo:'assets/log-exp-calchaqui.png',col:'#7D192F'},
+  D:{n:'Valle de Choromoro',logo:'assets/log-exp-choromoro.png',col:'#3D7672'},
+  E:{n:'Sur Tucumano',     logo:'assets/log-exp-sur.png',      col:'#A93432'},
+};
+
+/* Cámara del POI (check-in con foto): toma el color del circuito por currentColor */
+const POICAM=`<svg viewBox="0 0 24 24"><path d="M9.4 6.6l1-1.8h3.2l1 1.8h4.2a1.6 1.6 0 0 1 1.6 1.6v9.2a1.6 1.6 0 0 1-1.6 1.6H5.6A1.6 1.6 0 0 1 4 17.4V8.2a1.6 1.6 0 0 1 1.6-1.6h3.8Z" fill="currentColor"/><circle cx="12" cy="12" r="3.4" fill="#fffdf5"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></svg>`;
+
+/* ============ SELLOS (GDD §3, v2) — B4/B5 = check-in REAL del MVP ============ */
+/* mar = marcador del sello: {poi:1} = POI genérico (resuelto con check-in de foto) · {pro:'Px'} = pertenece a la ruta PRODUCTOS Px */
+const S = (id,nom,cir,tipo,curio,lat,lng,fotos,mar)=>({id,nom,cir,tipo,curio,lat,lng,fotos,mar:mar||null});
+const SELLOS=[
+ S('A1','La casa donde nació la patria','A','lugar','Museo Casa Histórica de la Independencia (Congreso de Tucumán 141, en el Salón de la Jura se firmó la Independencia el 9 de julio de 1816. Entrada libre y gratuita). -26.83, -65.21',undefined,undefined,['https://picsum.photos/seed/casahistorica1/800/450','https://picsum.photos/seed/casahistorica2/800/450','https://picsum.photos/seed/casahistorica3/800/450','https://picsum.photos/seed/casahistorica4/800/450','https://picsum.photos/seed/casahistorica5/800/450'],{poi:1}),
+ S('A2','Plaza, catedral y basílica','A','lugar','El corazón del casco histórico de San Miguel de Tucumán, en tres paradas a pie.',undefined,undefined,undefined,{pro:'P3'}),
+ S('A3','El parque gigante','A','lugar','Parque 9 de Julio, con el Museo de la Industria Azucarera – Casa Obispo Colombres: gratis, casona de 1800 con un trapiche de madera en la puerta.',-26.838,-65.208,null,{pro:'P8'}),
+ S('A4','Un museo por cuadra','A','lugar','Cinco museos a pie entre la Plaza Independencia y la cuadra del Congreso — casi todos con entrada gratis.',undefined,undefined,undefined,{poi:1}),
+ S('A5','La patria de noche','A','noche','"Luces y Sonidos de la Independencia": viernes y sábados por la noche, junto a la Casa Histórica (con reserva previa).',undefined,undefined,undefined,{poi:1}),
+ S('A6','Sabores Tucumanos','A','exp','Día 1 del itinerario gastronómico oficial: desayuno en las confiterías del casco histórico, city tour con la Casa Histórica, el sánguche de milanesa y la cena con peña folclórica.',undefined,undefined,['assets/comidas/sanguche_de_milanesa.webp'],{pro:'P15'}),
+ S('B1','El pueblo del bosque','B','lugar','Villa Nougués: casco de piedra y bosques de montaña a 25 min de la ciudad. -26.80, -65.29',undefined,undefined,undefined,{poi:1}),
+ S('B2','El bosque de Percy','B','lugar','Parque Percy Hill, Yerba Buena: yungas, aves y agenda pública activa.',undefined,undefined,undefined,{poi:1}),
+ S('B3','El parque de la sierra','B','lugar','Parque Horco Molle (mié–dom): mirador Rondavía, el cristo, el Sendero El Funicular y la Reserva de fauna, abierta al público.',undefined,undefined,undefined,{pro:'P13'}),
+ S('B4','El cristo que mira a la ciudad','B','lugar','Complejo Cristo Bendicente, San Javier: la escultura de Juan Carlos Iramain mide 28 m y tiene miradores sobre la ciudad y Turismo Activo (entradas a trekking, tirolesa y parapente). De noche, mapping "Cristo Luminoso". ★ REAL',-26.792,-65.313,undefined,{poi:1}),
+ S('B5','Agua, playa y museo','B','lugar','Complejo El Cadillal, Tafí Viejo: playa, kayak, aerosilla y museo arqueológico, a 30 min. ★ REAL',-26.681,-65.262,undefined,{pro:'P13'}),
+ S('B6','La eco-senda del bosque','B','sendero','Inicios de las eco-sendas de San Javier (El Funicular, Río Noque, Puerta del Cielo, Cuesta Vieja). Con prestador habilitado.',undefined,undefined,undefined,{pro:'P12'}),
+ S('B7','El mirador de la voz latinoamericana','B','lugar','Mirador Mercedes Sosa, RP 341: la mejor foto de la ciudad, con la Negra en el paisaje. Hito de la Huellas de Mercedes Sosa (candidatura UNESCO).',undefined,undefined,undefined,{poi:1,pro:'P1'}),
+ S('B8','Aventura en el aire','B','exp','RAKI (96 puentes), parapente en Loma Bola o la tirolesa más larga del país. Con prestador.',undefined,undefined,undefined,{pro:'P13'}),
+ S('B9','El paseo de Yupanqui','B','lugar','Raco: el paseo de las Huellas de Atahualpa Yupanqui — 850 m (~12 min) con sus versos, la única estación de la ruta.',undefined,undefined,undefined,{pro:'P2'}),
+ S('B10','Sabores Tucumanos','B','exp','Gastronomía del circuito Yungas: nodo del itinerario oficial de Sabores Tucumanos aún sin platos confirmados — espacio reservado.',undefined,undefined,['assets/textura.png'],{pro:'P15'}),
+ S('C1','El paso de las nubes','C','lugar','Mirador El Infiernillo a 3.041 m: frío de sierra y venturas del valle.',undefined,undefined,undefined,{poi:1}),
+ S('C2','La foto del Indio','C','lugar','Monumento al Indio: la parada clásica en la subida a Tafí.',undefined,undefined,undefined,{poi:1}),
+ S('C12','El remanso del dique','C','lugar','Dique La Angostura: aguas mansas, balnearios y kayak, a ~25 km del Monumento.',undefined,undefined,undefined,{pro:'P13'}),
+ S('C3','Reserva Río Los Sosa','C','lugar','Cascadas y pozas de la reserva provincial, en la bajada de la RP 307.',undefined,undefined,undefined,{poi:1}),
+ S('C4','Herencia ancestral','C','lugar','Parque Arqueológico Los Menhires, frente a la plaza de El Mollar: ~124 monolitos de más de 2.000 años. Gratis · mar–sáb 9–19, dom y lun 9–14.',undefined,undefined,undefined,{pro:'P16'}),
+ S('C5','Tras el paso de los jesuitas','C','lugar','Museo Jesuítico de La Banda, estancia de 1718: recorridos sensoriales y la fábrica de quesos del valle. Mar–dom 8–18, $3.000. Nodo del Queso y Vino «Sabores con altura».',undefined,undefined,undefined,{pro:'P4',pro2:'P9'}),
+ S('C6','El oficio del valle','C','lugar','Ruta del Artesano, Tafí del Valle: telar, cuero y chaguar en los talleres.',-26.583,-65.711,undefined,{pro:'P10'}),
+ S('C7','La tierra de la Pachamama','C','lugar','Amaicha del Valle: museos, bodega comunitaria y ceremonias. -26.60, -65.90',undefined,undefined,undefined,{poi:1,pro:'P6'}),
+ S('C8','Vinos de altura','C','cata','Cata en bodega de la Ruta del Vino de Altura (Colalao del Valle: Los Amaichas, Luna de Cuarzo…).',undefined,undefined,undefined,{pro:'P6'}),
+ S('C9','La ciudad que nunca se rindió','C','lugar','Ruinas de Quilmes: terrazas y muros en piedra (fortaleza con dos fuertes y mirador) + Centro de Interpretación. L–D 8:30–18:00. -26.67, -65.99',undefined,undefined,undefined,{pro:'P16'}),
+ S('C10','Recorrido serrano','C','sendero','Senda El Pelao, RP 325 (El Mollar): circular 5 km (~2 h) o 9 km (~3 h), con vistas del valle y del dique. Con prestador.',undefined,undefined,undefined,{pro:'P12'}),
+ S('C13','Vertientes del valle','C','sendero','Cascada Los Alisos, El Mollar: 1.8 km (~2 h). Con prestador.',undefined,undefined,undefined,{pro:'P12'}),
+ S('C11','El pueblo de piedra','C','comunitario','Talapazo, comunidad Quilmes: pan, frangollo, leyendas, Pachamama y eco-sendas (con reserva previa).',undefined,undefined,undefined,{pro:'P14'}),
+ S('C14','Sabores Tucumanos','C','exp','Quesos y quesillos de Tafí del Valle en picada, con los postres del valle: empanadillas de cayote, ambrosía y mazamorra con leche.',undefined,undefined,['assets/comidas/quesos_quesillos.webp','assets/comidas/empanadilla_cayote.webp','assets/comidas/ambrosia.webp','assets/comidas/mazamorra_leche.webp'],{pro:'P15'}),
+ S('C15','Sabores con altura','C','exp','Queso y Vino «Sabores con altura»: el queso tipo Tafí herencia jesuita de 1718 y el maridaje con la Ruta del Vino de Altura (2º tramo). Cuatro paradas queseras en Tafí.',undefined,undefined,['assets/quesovino/portada.webp','assets/quesovino/carreras.webp','assets/quesovino/sofia.webp','assets/quesovino/cuartos.webp','assets/quesovino/labanda.webp'],{pro:'P9'}),
+ S('D1','El valle de los nogales','D','lugar','Hualinchay, Trancas (18 km oeste de San Pedro, ~1.700 m): cascadas de los ríos Tacanas y Tipas, la piedra arqueológica tallada como mapa de los cuatro puntos cardinales y museo de la Comunidad Indígena Cacique Marcos Pasayo.',undefined,undefined,undefined,{pro:'P13'}),
+ S('D2','Refrescá tu paseo','D','lugar','Balnearios sobre los ríos Tacana y Tipa, San Pedro de Colalao: pozas naturales, sombra y camping. El clásico baño de verano del valle.',undefined,undefined,undefined,{pro:'P13'}),
+ S('D3','El templo del brigadier','D','lugar','Iglesia Sagrado Corazón, Trancas: acá fue preso y murió Bernabé Aráoz (24/3/1831). Nodo P3.',undefined,undefined,undefined,{pro:'P3'}),
+ S('D4','El pozo milagroso','D','lugar','Pozo de San Francisco Solano y sus aguas, en Trancas. Nodo P3.',undefined,undefined,undefined,{pro:'P3'}),
+ S('D5','La sendera del monolito','D','sendero','Piedra Tallada: roca de ~4 m con grabados de 2.000 años, sagrada para la Comunidad Indio Colalao. Caminata de 1.30 h desde el centro de San Pedro cruzando el río Tipas, con guía local.',undefined,undefined,undefined,{pro:'P16',pro2:'P12'}),
+ S('D6','La gruta que se enciende','D','noche','Mapping "Lourdes, un mensaje de Amor" sobre la Gruta de Lourdes (Colalao): mié–dom 20.00 y 20.30 h.',undefined,undefined,undefined,{pro:'P3'}),
+ S('D7','El museo escondido','D','lugar','Museo Arqueológico Dr. Manuel García Salemi, 24 de Septiembre (a metros de la plaza), San Pedro de Colalao: urnas, morteros y cerámicas de Santa María y Candelaria. Colaborativa $1.000.',undefined,undefined,undefined,{poi:1}),
+ S('D8','Sabores Tucumanos','D','exp','La humita «más rica del país» según el itinerario oficial, en los bares de San Pedro, y quesos y quesillos de San Pedro y Trancas.',undefined,undefined,['assets/comidas/humita.webp','assets/comidas/quesos_quesillos.webp'],{pro:'P15'}),
+ S('E1','Nací en Famaillá','E','exp','Circuito de la Empanada: talleres, horno a leña y la degustación. Sello foto del plato.',undefined,undefined,undefined,{pro:'P15'}),
+ S('E2','El templo junto al cementerio','E','lugar','Iglesia Jesuítica San Ignacio de Loyola (La Cocha, 1746–57, MHN). Nodo P3 y P4.',undefined,undefined,undefined,{pro:'P3'}),
+ S('E3','Tradición y gastronomía regional','E','exp','Feria de Simoca, solo sábados: carros a sulki, artesanías en caña y feria gastronómica. -27.30, -65.36',undefined,undefined,undefined,{poi:1,pro:'P15'}),
+ S('E4','Tierra de la randa','E','exp','Monteros: Mercado Cultural, Museo de la caña y la randa, tejido patrimonio de Tucumán.',undefined,undefined,undefined,{poi:1}),
+ S('E5','El espejo de Escaba','E','lugar','Dique Escaba en kayak + la hostería al agua, en Villa Alberdi (nocturno posible).',undefined,undefined,undefined,{pro:'P13'}),
+ S('E6','Túneles bajo la sierra','E','sendero','Eco-senda Túneles de Rumi Punco: cascadas de 15 m y túneles de montaña. Con guía.',undefined,undefined,undefined,{pro:'P12'}),
+ S('E7','Los caminos del parque','E','sendero','PN Aconquija: Portales Cochuna y Campo de los Alisos. La joya: La Ciudacita (2 días con prestador).',undefined,undefined,undefined,{pro:'P12'}),
+ S('E8','Sabores Tucumanos','E','exp','La empanada tucumana de Famaillá (Capital Nacional de la Empanada), el pastel de novia de la feria de Simoca y los dulces de la caña: tableta, alfeñique y alfajor de turrón.',undefined,undefined,['assets/comidas/empanada_tucumana.webp','assets/comidas/pastel_de_novia.webp','assets/comidas/tableta_miel_cana.webp','assets/comidas/alfenique.webp','assets/comidas/alfajor_turron.webp'],{pro:'P15'}),
+];
+/* Direcciones de cada capítulo: localidad + ruta o calle (validadas contra artículos de tucumanturismo.gob.ar). A re-validar en campo junto con coordenadas. */
+const DIR={
+ A1:'Congreso de Tucumán 141, San Miguel de Tucumán',
+ A2:'Plaza Independencia, centro de San Miguel de Tucumán',
+ A3:'Parque 9 de Julio, San Miguel de Tucumán',
+ A4:'Casa Padilla: 25 de Mayo 36 · Museo Folklórico Belgrano: 24 de Septiembre 565 · Museo Iramain: Entre Ríos 27 — todo a pie, San Miguel de Tucumán',
+ A5:'Casa Histórica, Congreso de Tucumán 141, San Miguel de Tucumán',
+ A6:'Confiterías del casco histórico, San Miguel de Tucumán',
+ B1:'Villa Nougués (RP 341, ~25 km de San Miguel de Tucumán)',
+ B2:'Jardín Botánico Percy Hill, Yerba Buena',
+ B3:'Reserva Horco Molle (RP 341), Yerba Buena',
+ B4:'Cerro San Javier, complejo Cristo Bendicente (RP 341)',
+ B5:'Dique Celestino Gelsi «El Cadillal» — por RN 9 y luego RP 347, Tafí Viejo (~25 km de San Miguel de Tucumán)',
+ B6:'Sendero El Funicular — Ruta del Cristo (RP 341), San Javier',
+ B7:'Mirador Mercedes Sosa — RP 341, subida al Cerro San Javier',
+ B8:'RAKI y Loma Bola Parapente — Cerro San Javier (RP 341)',
+ B9:'Raco (RP 341 km 20,5)',
+ B10:'Circuito Yungas — nodo por confirmar con el Ente',
+ C1:'Mirador El Infiernillo — RP 307, cumbre de la cuesta (3.041 m)',
+ C2:'Monumento al Indio — RP 307, cuesta hacia Tafí del Valle',
+ C3:'Reserva Provincial Río Los Sosa — RP 307, bajada del Infiernillo hacia el valle',
+ C4:'Museo a cielo abierto Los Menhires — frente a la plaza de El Mollar',
+ C5:'Museo Jesuítico de La Banda — La Banda, RP 307 hacia Colalao del Valle',
+ C6:'Talleres de la Ruta del Artesano — Tafí del Valle',
+ C7:'Museo de la Pachamama — Amaicha del Valle (centro del pueblo)',
+ C8:'Bodega Comunitaria Los Amaichas — RP 307 km 115, El Tío / Amaicha del Valle',
+ C9:'Ciudad Sagrada de Quilmes — RN 40, 26 km al norte de Amaicha del Valle',
+ C10:'Senda El Pelao — salida desde El Mollar (RP 325)',
+ C11:'Comunidad Talapazo, junto a las Ruinas de Quilmes (con reserva previa)',
+ C12:'Dique La Angostura — RP 307, entre Tafí del Valle y El Mollar',
+ C13:'Cascada Los Alisos — El Mollar',
+ C14:'Estancias queseras y confiterías de Tafí del Valle (RP 307)',
+ C15:'Estancias y museos queseros de Tafí del Valle (RP 307)',
+ D1:'Hualinchay, Dto. Trancas (18 km al oeste de San Pedro de Colalao)',
+ D2:'Balnearios de los ríos Tacanas y Tipas — San Pedro de Colalao',
+ D3:'Iglesia Sagrado Corazón — Trancas (por RN 9)',
+ D4:'Pozo de San Francisco Solano — Trancas',
+ D5:'Piedra Tallada — San Pedro de Colalao (cruce del río Tipas, 1 h a pie desde el centro)',
+ D6:'Gruta de Nuestra Señora de Lourdes — Colalao del Valle',
+ D7:'Museo García Salemi — calle 24 de Septiembre, San Pedro de Colalao',
+ D8:'Bares de San Pedro de Colalao y queseros de Trancas',
+ E1:'Famaillá (RN 38) — Circuito de la Empanada',
+ E2:'Iglesia Santo Domingo — La Cocha',
+ E3:'Plaza de Simoca (RN 38) — feria solo sábados',
+ E4:'Mercado Cultural de Monteros (RN 38)',
+ E5:'Dique Escaba — Agua Dulce, Dto. J.B. Alberdi (RN 38, luego camino al dique)',
+ E6:'Túneles de Rumi Punco — yungas del Aconquija (acceso con guía local)',
+ E7:'PN Aconquija — Portales de Cochuna y Campo de los Alisos',
+ E8:'Famaillá y Simoca (RN 38) — Circuito de la Empanada y feria sabatina',
+};
+/* Sellos que agrupan varias sedes: la ficha las muestra como bullets (nombre + dirección + dato adicional). Solo con data verificada del sitio del Ente. n=nombre · d=dirección/referencia (opcional) · x=dato (opcional) */
+const LUG={
+ A2:[
+  {n:'Plaza Independencia',d:'centro de San Miguel de Tucumán',x:'La estatua central es de Lola Mora'},
+  {n:'Catedral Metropolitana',d:'frente a la plaza'},
+  {n:'Basílica de La Merced',d:'a metros de la plaza'}],
+ A4:[
+  {n:'Casa Padilla',d:'25 de Mayo 36',x:'Gratis'},
+  {n:'Museo Folklórico Provincial Belgrano',d:'24 de Septiembre 565',x:'Gratis'},
+  {n:'Museo Escultor Juan Carlos Iramain',d:'Entre Ríos 27'},
+  {n:'Museo Histórico Provincial Nicolás Avellaneda',d:'Congreso de Tucumán 56',x:'Gratis'},
+  {n:'Museo de Arte Sacro',d:'Congreso de Tucumán 53',x:'$4.000 · menores 12 y jubilados gratis los martes'}],
+ B6:[
+  {n:'Sendero El Funicular',d:'Horco Molle'},
+  {n:'Sendero Puerta del Cielo',d:'Horco Molle'},
+  {n:'Sendero Cuesta Vieja',d:'San Javier'},
+  {n:'Sendero Río Noque',d:'San Javier',x:'Con prestador habilitado'}],
+ C15:[
+  {n:'Estancia Las Carreras',d:'Tafí del Valle',x:'Visita guiada con ordeñe, hilado y degustación en los patios históricos'},
+  {n:'Tambo Señora Sofía',d:'Tafí del Valle',x:'Todos los días 10–19 · visitas guiadas 12 y 17 h · robots de ordeñe y degustación · reservas 381 6522774'},
+  {n:'Museo Experiencia Estancia Los Cuartos',d:'Estancia Los Cuartos, Tafí',x:'Visitas guiadas l–v 11 y 12 h · s–d 11, 12 y 13 h · general $6.000 · tel. 381 4435800'},
+  {n:'Museo Jesuítico de La Banda',d:'La Banda, RP 307',x:'Estancia de 1718 · mar–dom 8–18, $3.000 · sala «Fábrica de Quesos»'}],
+ B8:[
+  {n:'RAKI',d:'Cerro San Javier (RP 341)',x:'96 puentes de cuerda'},
+  {n:'Loma Bola Parapente',d:'Cerro San Javier',x:'Tándem de ~15 min de vuelo'},
+  {n:'Tirolesa San Javier',d:'Cerro San Javier',x:'La más larga del país'}],
+ C7:[
+  {n:'Museo Pachamama',d:'RP 307 km 118, Amaicha',x:'$5.000 · «La Casa de Piedra»'},
+  {n:'Bodega Comunitaria Los Amaichas',d:'RP 307 km 115, El Tío',x:'La primera de gestión comunitaria del país'},
+  {n:'Ceremonias de Pachamama',d:'Amaicha del Valle'}],
+ C8:[
+  {n:'Bodega Comunitaria Los Amaichas',d:'El Tío, Amaicha'},
+  {n:'Luna de Cuarzo'},
+  {n:'Altos La Ciénaga'},
+  {n:'La Churita'},
+  {n:'Chico Zossi'},
+  {n:'Las Arcas de Tolombón'},
+  {n:'Albarossa'},
+  {n:'Viñas del Chañar',d:'Colalao del Valle'},
+  {n:'Vertientes Tintas',d:'Los Zazos'},
+  {n:'La Orilla'},
+  {n:'Río de Arena',d:'El Bañado'}],
+ D1:[
+  {n:'Cascadas de los ríos Tacanas y Tipas',d:'Hualinchay, Dto. Trancas'},
+  {n:'Museo de la Comunidad Indígena Cacique Marcos Pasayo',d:'Hualinchay'},
+  {n:'Piedra tallada cardinal',x:'El tallado como mapa de los cuatro puntos cardinales'}],
+ E4:[
+  {n:'Mercado Cultural',d:'Monteros (RN 38)'},
+  {n:'Museo Municipal de la Caña de Azúcar',d:'Monteros',x:'Trapiche en molienda + multimedia'}],
+ E7:[
+  {n:'Portal Cochuna',x:'Senderos El Calao y Laguna del Tesoro'},
+  {n:'Portal Campo de los Alisos',x:'El Pozón, Selva Misteriosa, Los Chorizos y La Mesada'},
+  {n:'La Ciudacita',x:'2 días con prestador · registro previo en Centro Santa Rosa'}],
+};
+/* Sellos Sabores Tucumanos: platos del producto como bullets con foto en la ficha (fuente: sección Sabores Tucumanos del sitio del Ente). f=archivo en assets/comidas · n=título · l=lugar · x=dato opcional. B10 reservado (sin platos confirmados). */
+const SAB={
+ A6:[
+  {f:'sanguche_de_milanesa',n:'Sánguche de Milanesa',l:'Sangucherías de San Miguel de Tucumán',x:'Fiesta Nacional desde 2022'}],
+ B10:[],
+ C14:[
+  {f:'quesos_quesillos',n:'Quesos y quesillos',l:'Estancias queseras de Tafí del Valle'},
+  {f:'empanadilla_cayote',n:'Empanadillas de dulce de cayote',l:'Postre del valle'},
+  {f:'ambrosia',n:'Ambrosía',l:'Postre tradicional del valle'},
+  {f:'mazamorra_leche',n:'Mazamorra con leche',l:'Postre del valle'}],
+ D8:[
+  {f:'humita',n:'Humita',l:'Bares de San Pedro de Colalao',x:'«La más rica del país» según el itinerario'},
+  {f:'quesos_quesillos',n:'Quesos y quesillos',l:'San Pedro de Colalao · Trancas'}],
+ E8:[
+  {f:'empanada_tucumana',n:'Empanada Tucumana',l:'Famaillá — Capital Nacional de la Empanada',x:'Matambre a cuchillo, 13 repulgues'},
+  {f:'pastel_de_novia',n:'Pastel de novia',l:'Feria de Simoca (sábados)'},
+  {f:'tableta_miel_cana',n:'Tableta de miel de caña',l:'Herencia azucarera'},
+  {f:'alfenique',n:'Alfeñique',l:'Dulce de caña'},
+  {f:'alfajor_turron',n:'Alfajor de turrón de miel de caña',l:'Ícono tucumano'}],
+};
+/* Destino de cada sello (badge de la card, sin nomenclatura C4/etc.) */
+const DEST={
+ A1:'San Miguel de Tucumán',A2:'San Miguel de Tucumán',A3:'Parque 9 de Julio',A4:'San Miguel de Tucumán',A5:'San Miguel de Tucumán',
+ B1:'Villa Nougués',B2:'Yerba Buena',B3:'Yerba Buena',B4:'San Javier',B5:'El Cadillal',B6:'San Javier',B7:'San Javier',B8:'Loma Bola',B9:'Raco',
+ C1:'El Infiernillo',C2:'Subida a Tafí',C3:'Río Los Sosa',C4:'El Mollar',C5:'La Banda',C6:'Tafí del Valle',C7:'Amaicha del Valle',C8:'Colalao del Valle',C9:'Quilmes',C10:'El Mollar',C11:'Talapazo',C12:'La Angostura',C13:'El Mollar',
+ D1:'Hualinchay',D2:'San Pedro de Colalao',D3:'Trancas',D4:'Trancas',D5:'San Pedro de Colalao',D6:'Colalao del Valle',D7:'Colalao del Valle',
+ E1:'Famaillá',E2:'La Cocha',E3:'Simoca',E4:'Monteros',E5:'Villa Alberdi',E6:'Rumi Punco',E7:'Aconquija',
+ A6:'San Miguel de Tucumán',B10:'Yungas',C14:'Tafí del Valle',C15:'Tafí del Valle',D8:'San Pedro de Colalao',E8:'Famaillá · Simoca',
+};
+/* Links oficiales de Google Maps tomados de los artículos de tucumanturismo.gob.ar. */
+const GOO={
+ B2:'https://maps.app.goo.gl/s8vr3DVWGKsYV4bH7',
+ B3:'https://maps.app.goo.gl/4zQNKn2hGcJuJgrF8',
+ B4:'https://maps.app.goo.gl/7HaynEyVch47c8sz8',
+ B5:'https://maps.app.goo.gl/qFbsaEqy9uZHM89VA',
+ C1:'https://maps.app.goo.gl/WqUjS9hVSLyUM1QC9',
+ C4:'https://maps.app.goo.gl/NNPLbUam2DnJgP4e7',
+ C7:'https://maps.app.goo.gl/ZQJLZT3NT16L471PA',
+ C9:'https://maps.app.goo.gl/vfAtjMaSELSdeDNi9',
+ C12:'https://maps.app.goo.gl/7sfpXBX1NL5ejPz36',
+ D5:'https://maps.app.goo.gl/QkongT8zYLejCHn39',
+ D6:'https://maps.app.goo.gl/HGCmJRbdsNpWKrXk8',
+ E3:'https://maps.app.goo.gl/pi2LscaNZ4HPLPgr8',
+ E5:'https://maps.app.goo.gl/HnGENVX2xaKpcz6W6',
+ E6:'https://maps.app.goo.gl/VHTLMyaFcYoEDD8e8',
+};
+/* Búsqueda de Maps para los puntos sin link oficial del Ente. */
+const QTER={
+ A1:'Casa Histórica de la Independencia, San Miguel de Tucumán',
+ A2:'Plaza Independencia, San Miguel de Tucumán',
+ A3:'Parque 9 de Julio, San Miguel de Tucumán',
+ A4:'Casa Padilla, 25 de Mayo 36, San Miguel de Tucumán',
+ A5:'Casa Histórica de la Independencia, San Miguel de Tucumán',
+ B1:'Villa Nougués, Tucumán',
+ B6:'Sendero El Funicular, San Javier, Tucumán',
+ B7:'Mirador Mercedes Sosa, Yerba Buena, Tucumán',
+ B8:'Loma Bola Parapente, San Javier',
+ B9:'Raco, Tucumán',
+ C2:'Monumento al Indio, cuesta de Tafí del Valle',
+ C3:'Cascadas Cuesta del Infiernillo, Río Los Sosa',
+ C5:'Museo Jesuítico de La Banda, Tafí del Valle',
+ C6:'Ruta del Artesano, Tafí del Valle',
+ C10:'El Pelao, El Mollar, Tafí del Valle',
+ C11:'Talapazo, Valle Calchaquí, Tucumán',
+ C13:'Cascada Los Alisos, El Mollar, Tucumán',
+ D1:'Hualinchay, Trancas, Tucumán',
+ D2:'Balnearios Tacanas, San Pedro de Colalao',
+ D3:'Iglesia Sagrado Corazón, Trancas, Tucumán',
+ D4:'Pozo de San Francisco Solano, Trancas, Tucumán',
+ D7:'Museo García Salemi, San Pedro de Colalao',
+ E1:'Famaillá Circuito de la Empanada',
+ E2:'Iglesia Santo Domingo, La Cocha, Tucumán',
+ E4:'Mercado Cultural, Monteros, Tucumán',
+ E7:'Parque Nacional Aconquija Campo de los Alisos',
+ A6:'Casco histórico, San Miguel de Tucumán',
+ C15:'Estancia Las Carreras, Tafí del Valle, Tucumán',
+ B10:'Yungas, Tucumán',
+ C14:'Tafí del Valle, Tucumán',
+ D8:'San Pedro de Colalao, Tucumán',
+ E8:'Famaillá, Tucumán',
+};
+const gooLink=s=>GOO[s.id]||`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(QTER[s.id]||s.nom)}`;
+/* Rutas temáticas del catálogo oficial del Ente (fuentes: carpeta logos/ del proyecto).
+   NO forman circuito propio: cada ruta se muestra dentro del/los circuito(s) donde están sus nodos (campo cir).
+   cir tentativo por ubicación de nodos — a confirmar con el Ente (P7/P9/P11 aún sin nodos definidos). */
+const PRODUCTOS=[
+ {id:'P1',nom:'La voz de Tucumán',logo:'assets/log-huellas-mercedes.png',cir:['A','B','E'],det:'Huellas de Mercedes Sosa — hitos del homenaje: Parque 9 de Julio, Escuela Superior San Martín, Hotel Metropol, Museo Folklórico, Peña El Alto de la Lechuza y el mirador del cerro San Javier, donde piden esparcir sus cenizas.'},
+ {id:'P2',nom:'El cosechero que cantó',logo:'assets/log-huellas-yupanqui.png',cir:['B'],det:'Huellas de Atahualpa Yupanqui — único nodo: Raco. Paseo de 850 m (~12 min, fácil) con versos de «El arriero va», «El paisano errante», «Caminito del Indio» y «Tierra querida».'},
+ {id:'P3',nom:'El camino de los templos',nomr:'Ruta de la Fe',logo:'assets/log-ruta-fe.png',cir:['A','B','C','D','E'],det:'Ruta de la Fe — templos en los 5 circuitos: Catedral y basílicas del casco; Sagrado Corazón (Villa Nougués) y Monasterio Cristo Rey (El Siambón); Covadonga (El Mollar) y San Ramón Nonato (Amaicha); Gruta de Lourdes y San Pedro Apóstol (Colalao), Pozo de Solano (Trancas); ruinas de San José de Lules, La Merced (Simoca), San Ignacio de Loyola (La Cocha) y Cruz Papal (Alderetes).'},
+ {id:'P4',nom:'Huellas jesuíticas',logo:'assets/log-jesuitas.png',cir:['A','B','C','E'],det:'Camino Internacional de los Jesuitas (Chile·Arg·Perú·Bolivia): Iglesia y Convento San Francisco (casco), Misiones San José de Lules, Estancia Las Carreras y Las Tacanas (Tafí del Valle) y Capilla San Ignacio de Loyola (La Cocha, 1746).'},
+ {id:'P6',nom:'Ruta del Vino de Altura',nomr:'Valle Calchaquí',logo:'assets/log-vino-altura.png',cir:['C'],det:'Ruta del Vino de Altura Valle Calchaquí — 11 bodegas con visita: Los Amaichas/El Tío, Luna de Cuarzo, Altos La Ciénaga, La Churita, Chico Zossi, Las Arcas de Tolombón, Albarossa, Viñas del Chañar, Vertientes Tintas/Los Zazos y más. Nodos jugables: C8 «Vinos de altura» y la bodega comunitaria Los Amaichas de C7. La rama de Valle Choromoro es un proyecto sin funcionamiento por el momento.'},
+ {id:'P7',nom:'Ruta del Vino Choromoro',nomr:'Valle Choromoro',logo:'assets/log-vino-choromoro.png',cir:['D'],det:'Proyecto de rama del Vino en el Valle de Choromoro — no está funcionando por el momento. Sin nodos jugables (reservado, no usar).'},
+ {id:'P8',nom:'La Ruta del Azúcar',logo:'assets/log-ruta-azucar.png',cir:['A'],det:'Hitos de la industria azucarera. Nodo natural: el Museo de la Industria en el Parque 9 de Julio (A3). Nodo nuevo posible: Centro de Interpretación de la Zafra, Famaillá (RN 301, L–D 8–13 y 15–18).'},
+ {id:'P9',nom:'Queso y Vino',nomr:'Sabores con altura',logo:'assets/log-queso-vino.png',cir:['C'],det:'Producto gastronómico de Tafí del Valle, 2 tramos: 1º el queso — Estancia Las Carreras (visita guiada con ordeñe y degustación), Tambo Señora Sofía (todos los días 10–19, visitas 12 y 17 h, reservas 381 6522774), Museo Experiencia Estancia Los Cuartos (l–v 11 y 12 h, s–d 11–13 h, $6.000) y Museo Jesuítico La Banda (sala «Fábrica de Quesos», mar–dom 8–18, $3.000); 2º se engancha con el Vino de Altura. Nodos jugables: C15 «Sabores con altura» (card de las 4 paradas) y C5 (La Banda).'},
+ {id:'P10',nom:'Ruta del Artesano',nomr:'Valle Calchaquí',logo:'assets/log-artesano-calchaqui.png',cir:['C'],det:'Ruta autoguiada: 28 talleres abiertos en Tafí del Valle, Amaicha, El Mollar y El Bañado (Cerámica del Valle/Ramona Luna, Truquía, Warmipura, Ruta del Tejido/Fiorina Gatti, Antumalen, Manos del Valle, entre otros). Nodo natural: C6 «El oficio del valle».'},
+ {id:'P11',nom:'Ruta del Artesano',nomr:'Valle Choromoro',logo:'assets/log-artesano-choromoro.png',cir:['D'],det:'Rama de la Ruta del Artesano en el Valle de Choromoro. El imagotipo existe, pero la ruta no fue publicada en el sitio — temporada 0, nodos a confirmar con el Ente.'},
+ {id:'P12',nom:'Ecosendas',logo:'assets/log-ecosendas.png',cir:['B','C','D','E'],det:'Eco-sendas guiadas del programa: Horco Molle (El Funicular, Puerta del Cielo), San Javier (Cuesta Vieja, Río Noque), Aguas Chiquitas, El Pelao (5/9 km), La Ciénaga, Cascada Los Alisos, Talapazo, Campo de los Alisos, Portal Cochuna y Túneles de Rumi Punco (solo con prestadores habilitados).'},
+ {id:'P13',nom:'Turismo de Naturaleza',logo:'assets/log-naturaleza.png',cir:['B','C','D','E'],det:'Programa que agrupa eco-sendas, cicloturismo y aventura — sin nodos propios. Sellos naturalistas en juego: B3/B5/B8, C12, D1/D2, E5. Datos de áreas protegidas: PN Aconquija requiere registro previo en el Centro Santa Rosa.'},
+ {id:'P14',nom:'Turismo Rural Comunitario',logo:'assets/log-rural-comunitario.png',cir:['C'],det:'La comunidad de Talapazo, a 2.100 m — cosecha según estación, comidas típicas, dulces caseros, ceremonias de la Pachamama y fogones con coplas. Nodo natural: C11 «El pueblo de piedra».'},
+ {id:'P15',nom:'Sabores y Saberes',nomr:'Sabores Tucumanos',logo:'assets/log-sabores.png',cir:['A','B','C','D','E'],det:'Producto transversal del Ente: itinerario gastronómico oficial de 6 días — un día por circuito (casco, Tafí Viejo/San Javier, San Pedro/Trancas, Simoca/Famaillá, Tafí del Valle, Amaicha/Colalao) — más los 14 platos típicos del sitio. Nodos jugables: E1 «Nací en Famaillá», E3 «La feria de Simoca» y una card de Sabores Tucumanos por circuito (A6·B10·C14·D8·E8).'},
+ {id:'P16',nom:'Turismo Arqueológico',logo:'assets/log-arqueologico.png',cir:['C','D'],det:'Sitios arqueológicos con guía habilitado. Nodos naturales: C9 (Quilmes, ocupada desde ~800 d.C., L–D 8:30–18:00), C4 (Los Menhires, +2.500 años), D5 (Piedra Tallada, petroglifos). Extras en el valle: Los Varela y Tiu Punco (solo con guía).'},
+];
+/* Prestadores de Turismo Aventura Habilitados (padrón ETT, snapshot real 22/10 — API prestadores). null = sin prestador cargado cerca */
+const PRESTA={
+ B6:[{n:'Amigos de la Montaña',lg:'TA0001-P',t:'381 4485418'},{n:'High Trek Outdoors',lg:'TA0032-P',t:'381 6490247'}],
+ B8:[{n:'RAKI (96 puentes)',lg:'TA0038-P',t:'381 5675037'},{n:'Loma Bola Parapente',lg:'TA0021-P',t:'381 4908454'}],
+ C10:[{n:'Senderos del Tafí',lg:'TA0008-P',t:'381 6447687'}],
+ C13:[{n:'Adri y Fer Guías',lg:'TA0012-P',t:'381 4015179'}],
+ D5:[{n:'Dos Pozos Turismo Activo',lg:'TA0036-P',t:'381 5830889'},{n:'Fundación Coquena (DTS)',lg:'TA0025-P',t:'381 4723352'}],
+ E7:[{n:'Caminantes de Montaña',lg:'TA0011-P',t:'3865 675666'},{n:'Cochuna Trekking',lg:'TA-0050-P',t:'3865 439772'}],
+ E6:null,
+};
+function prestaBox(s){
+ const p=PRESTA[s.id];
+ if(!PRESTA.hasOwnProperty(s.id))return'';
+ if(!p)return`<div class="presta presta-sin"><div class="presta-t" style="color:#6d5a12">${I.compass} Prestador habilitado</div>Este punto todavía <b>no tiene prestador cargado</b> en el padrón del Ente. Antes de ir, consultá en informes (Casa Central · 24 de Septiembre 486 · 0381 4303644 int. 109).</div>`;
+ return`<div class="presta"><div class="presta-t">${I.compass} Con prestador habilitado</div>
+  ${p.map(e=>`<div class="fila"><span class="n">${e.n}</span><span class="lg">${e.lg}</span><a href="tel:+54${e.t.replace(/\D/g,'')}">${e.t}</a></div>`).join('')}
+  <div class="presta-o">Padrón "Prestadores de Turismo Aventura Habilitados" del ETT · Temporada 0</div></div>`;
+}
+const PREMIOS=[
+ {n:3,txt:'Consumición o postre en comercio local',donde:'código en pantalla → comercio'},
+ {n:5,txt:'Kit mini-Wayki (llavero, calco)',donde:'Casa Central Ente — 24 de Septiembre 486, San Miguel de Tucumán'},
+ {n:7,txt:'Kit "Hermano de Wayki" (remera, alfajores, alfeñiques)',donde:'Casa Central Ente — 24 de Septiembre 486, San Miguel de Tucumán',req:'+ ≥1 sello nocturno'},
+];
+/* Padrón público de agencias del Ente (API agencias · verificado 30/10/2026) — demo temporada 0
+   campos: dir=direccion · tel2=segundo teléfono · web/ig=links (fuente API del sitio) */
+const AGENCIAS=[
+ {n:'Xynergia Travel & Tech',l:'ATR-0001',loc:'San Miguel de Tucumán',tel:'+54 381 5903830',mail:'contacto@xynergiatravel.com',web:'https://xynergiatravel.com',ig:'https://instagram.com/xynergia_travel_tech'},
+ {n:'Taku',l:'ATR-0002',loc:'San Miguel de Tucumán',tel:'+54 381 6634311',mail:'takudelosvalles@gmail.com',dir:'Corrientes 1230'},
+ {n:'Aerotransfer Experiencias',l:'ATR-0003',loc:'Yerba Buena',tel:'+54 381 5399510',mail:'operaciones@aerotransfer.com.ar',dir:'Salta Nº64',web:'https://aerotransfer.com.ar'},
+ {n:'Tucumán al Mundo',l:'ATR-0004',loc:'San Miguel de Tucumán',tel:'+54 381 4066801',mail:'tucumanalmundo@gmail.com',dir:'Pasaje Cruz Varela',web:'https://www.tucumanalmundo.com',ig:'https://www.instagram.com/tucumanalmundo'},
+ {n:'Abba Tour and Meeting',l:'ATR-0005',loc:'San Miguel de Tucumán',tel:'+54 381 5240668',mail:'info@abba-tour.com',dir:'San Lorenzo Nº475',web:'https://www.abba-tour.com'},
+ {n:'Malu Turismo Tucumán',l:'ATR-0006',loc:'J.B. Alberdi',tel:'+54 381 5470906',mail:'maluturismo@gmail.com',dir:'Juan Bautista Alberdi Nº668',web:'https://www.maluturismo.com'},
+ {n:'Camelot Viajes y Servicios',l:'EVT 10278',loc:'Yerba Buena',tel:'+54 381 4858020',tel2:'+54 381 4742738',mail:'camelotviajes@hotmail.com',dir:'Thames Nº 1020, piso 1º, of. G'},
+ {n:'Cerro del Aconquija Viajes y Turismo',l:'EVT 17509',loc:'San Miguel de Tucumán',tel:'+54 381 4235148',tel2:'+54 381 6814162',mail:'cerrodelaconquijaviajes@gmail.com',dir:'Crisóstomo Álvarez Nº 397, piso 6º, dpto. B',web:'https://www.cerrodelaconquijaviajes.tur.ar'},
+ {n:'CF-Wamos',l:'EVT 18334',loc:'San Miguel de Tucumán',tel:'',mail:'gracielarodriguez1921@gmail.com',web:'https://www.cf-wamos.tur.ar'},
+ {n:'JF Turismo',l:'EVT 14316',loc:'San Miguel de Tucumán',tel:'+54 381 4229278',mail:'jf-turismo@hotmail.com',dir:'Pje Batalla de Cerrito Nº 1229'},
+ {n:'Noroeste Viajes',l:'EVT 2923',loc:'San Miguel de Tucumán',tel:'+54 381 4222401',tel2:'+54 381 4306461',mail:'licberianoroeste@gmail.com',dir:'San Martín Nº 773'},
+ {n:'Terminal Yerba Buena',l:'EVT 12580',loc:'Yerba Buena',tel:'+54 381 4253647',tel2:'+54 381 6683474',mail:'purapacha.experiencias@gmail.com',dir:'Pedro Maderuelo Nº99',ig:'https://www.instagram.com/purapacha.experiencias'},
+ {n:'Turismo Cultural Kayanka',l:'EVT 11961',loc:'San Miguel de Tucumán',tel:'+54 381 4337080',tel2:'+54 381 5339609',mail:'turismokayanka@gmail.com',dir:'Crisóstomo Álvarez Nº 1560'},
+ {n:'Turismo del Tucumán',l:'EVT 10003',loc:'San Miguel de Tucumán',tel:'+54 381 4660603',tel2:'+54 381 4149622',mail:'turismodeltucuman@gmail.com',web:'https://turismodeltucuman.tur.ar'},
+ {n:'Expediciones Ampimpa',l:'EVT 19300',loc:'Amaicha del Valle',tel:'+54 381 6091195',tel2:'+54 381 2365547',mail:'ampimpa1@gmail.com',dir:'RP 307 km 107, Amaicha del Valle',web:'https://www.observatorioampimpa.com/expediciones'},
+];
+/* Guías registrados (GPS-####) y prestadores de turismo activo (TA-####-P) — padrón público del Ente, snapshot 30/10/2026 (guias_sitio.json / prestadores_sitio.json) */
+const GUIAS=[
+{n:'Adriana Beatriz Colletti',l:'GPI-0004',t:'Guía Provincial Idoneo',loc:'Las Talitas',tel:'+543815033462'},
+{n:'Andres Hernan Figueroa',l:'GPS-0038',t:'Guía Provincial de Sitio',loc:'Ampimpa',tel:'+543816333098'},
+{n:'Angel Leonardo Gonzalez',l:'GPS-0035',t:'Guía Provincial de Sitio',loc:'Concepción',tel:'+543865439772'},
+{n:'Aredes Lopez Maria de los Angeles',l:'GPP-0041',t:'Guía de Turismo Provincial Profesional',loc:'San Miguel de Tucumán',tel:'+543816550007'},
+{n:'Carmen Beatriz Barboza',l:'GPP-0013',t:'Guía Provincial Profesional',loc:'Yerba Buena',tel:'+543815947106'},
+{n:'Claudio Argentino Ruiz',l:'GPI-0008',t:'Guía Provincial Idoneo',loc:'San Miguel de Tucumán',tel:'+543815831639'},
+{n:'Constanza Ayelen Gomez Barboza',l:'GPPB-0028',t:'Guía Provincial Profesional',loc:'Yerba Buena',tel:'+543814491471, +543815808728'},
+{n:'Cristian Ricardo Mamani',l:'GPI-0017',t:'Guía Provincial Idoneo',loc:'Tafí del Valle',tel:'+543815462502'},
+{n:'Daniel Alberto Bolomo',l:'GPIB-0009',t:'Guía Provincial Idoneo Bilingüe (aleman)',loc:'San Miguel de Tucumán',tel:'+543814440292'},
+{n:'Diego Pablo Vellido',l:'GPP-0022',t:'Guía Provincial Profesional',loc:'San Miguel de Tucumán',tel:'+543814066801'},
+{n:'Eduardo Benito Apestey',l:'GPI-0002',t:'Guía Provincial Idoneo',loc:'San Miguel de Tucumán',tel:'+54381639337'},
+{n:'Facundo Hernan Torres',l:'GPIB-0032',t:'Guía Provicial Idoneo Bilingüe',loc:'Burruyacú',tel:'+543816227415'},
+{n:'Fernando Fabricio Ramon Gomez',l:'GPI-0016',t:'Guía Provincial Idoneo',loc:'Yerba Buena',tel:'+543816459158, +543812322947'},
+{n:'Jeronimo Ignacio Pino Coviello',l:'GPPB-0036',t:'Guía Provincial Profesional Bilingüe',loc:'San Miguel de Tucumán',tel:'+543816384017'},
+{n:'Jessica Mariela Moreno Casimiro',l:'GPL-0034',t:'Guía Provincial Profesional',loc:'Tafí del Valle',tel:'+543815749389'},
+{n:'Jorge Oscar Caceres',l:'GPP-0031',t:'Guía Provincial Profesional',loc:'San Miguel de Tucumán',tel:'+54381548908'},
+{n:'Jose Francisco Paz',l:'GPS-0037',t:'Guía Provincial de Sitio',loc:'Ampimpa',tel:'+543813624556'},
+{n:'Juan Carlos Castro',l:'GPI-0006',t:'Guía Provincial Idoneo',loc:'San Miguel de Tucumán',tel:'+543814637552'},
+{n:'Juan Francisco Bejar',l:'GPP-0033',t:'Guía Provincial Profesional',loc:'Yerba Buena',tel:'+543816079553'},
+{n:'Justina Adela Coria',l:'GPP-0042',t:'Guía de Turismo Profesional Provincial',loc:'Yerba Buena',tel:'+543813926285'},
+{n:'Karina Silvana Ruiz',l:'GPI-0025',t:'Guía Provincial Idoneo',loc:'Tafí Viejo',tel:'+543814629042'},
+{n:'Lourdes Milagro del Valle Escandar',l:'GPIB-0015',t:'Guía Provincial Idoneo B',loc:'Aguilares',tel:'+543865659393'},
+{n:'Lucia Myriam Villagra',l:'GPP-0014',t:'Guía Provincial Profesional',loc:'Yerba Buena',tel:'+543814564411'},
+{n:'Luis Eduardo Sueldo',l:'GPI-0021',t:'Guía Provincial Idoneo',loc:'San Miguel de Tucumán',tel:'+543814013589'},
+{n:'Manuel Cruz Ponce',l:'GPI-0027',t:'Guía Provincial Idoneo',loc:'San Miguel de Tucumán',tel:'+543814491471'},
+{n:'Maria Constanza Rearte',l:'GPI-0003',t:'Guía Provincial Idoneo',loc:'Tafí Viejo',tel:'+543816447687'},
+{n:'Maria Jimena Sanchez',l:'GPI-0007',t:'Guía Provincial Idoneo',loc:'San Pedro de Colalao',tel:'+543814723352'},
+{n:'Matias Daniel Medina',l:'GPI-0018',t:'Guía Provincial Idoneo',loc:'Las Talitas',tel:'+543814492179'},
+{n:'Mauro Matias Grezzana',l:'GPE-0040',t:'Guía Provincial Especializado',loc:'San Miguel de Tucumán',tel:'+543815702549'},
+{n:'Miguel Angel Puigvert',l:'GPI-0005',t:'Guía Provincial Idoneo',loc:'San Miguel de Tucumán',tel:'+543813005550'},
+{n:'Nacio Sandro Llampa',l:'GLI-0029',t:'Guía Local Idoneo',loc:'Talapazo',tel:'+543813271089'},
+{n:'Nahuel Rodrigo Valdez',l:'GPP-0030',t:'Guía Provincial Profesional',loc:'San Miguel de Tucumán',tel:'+543873648720'},
+{n:'Nancy Paola Rosales',l:'GPIB-0024',t:'Guía Provincial Idoneo Bilingue (portugues)',loc:'Aguilares',tel:'+543865311052'},
+{n:'Natalia Karina Gramajo',l:'GPS-0044',t:'Guía de Sitio',loc:'San Miguel de Tucumán',tel:'+543813496842'},
+{n:'Pablo Ezequiel Flores',l:'GPE-0039',t:'Guía Provincial Especializado',loc:'San Miguel de Tucumán',tel:'+543815702549'},
+{n:'Pablo Roberto Cena',l:'GPP-0023',t:'Guía Provincial Profesional',loc:'San Miguel de Tucumán',tel:'+543816045969'},
+{n:'Patricio Medina Peña',l:'GPP-0043',t:'Guía Provincial Profesional',loc:'Concepción',tel:'+543865452565'},
+{n:'Pedro Hector Araoz',l:'GPI-0001',t:'Guía Provincial Idoneo',loc:'San Miguel de Tucumán',tel:'+543814050230'},
+{n:'Ruben Fernando Olmedo',l:'GPP-0019',t:'Guía Provincial Profesional',loc:'Concepción',tel:'+543814748422, +543865422057'},
+{n:'Santiago Ignacio Jose Lobo',l:'GPPB-0026',t:'Guía Provincial Profesional Bilingue (ingles)',loc:'Tafí Viejo',tel:'+543816683474'},
+{n:'Sofia Adela Sanchez',l:'GPI-0010',t:'Guía Provincial Idoneo',loc:'Santa Ana',tel:'+543865366677'}];
+const PRESTADORES=[
+{n:'+40 Punto Bike',l:'TA-0007-P',loc:'El Cadillal',act:'Mountain Bike · Trekking',tel:'(0381)4099703'},
+{n:'A Cielo Abierto-trekking, Montañismo, Expediciones',l:'TA0057-P',loc:'San Miguel de Tucumán',act:'Trekking · Rappel',tel:'+543814469528'},
+{n:'Adri y Fer Guías',l:'',loc:'Tafí del Valle',act:'Avistaje de Aves · Trekking',tel:'3814015179'},
+{n:'Aires de Montaña',l:'',loc:'Yerba Buena',act:'Trekking baja y moderada dificultad',tel:'(0381)5108902'},
+{n:'Alvaro Blas Lucero',l:'TA-0058-P',loc:'Yerba Buena',act:'Parapente',tel:'+543814594226'},
+{n:'Amigos de la Montaña',l:'',loc:'Yerba Buena',act:'Trekking baja y moderada dificultad',tel:'+543814485418'},
+{n:'Andino Expediciones',l:'',loc:'San Miguel de Tucumán',act:'Trekking',tel:'(0381)3668963'},
+{n:'C.f. Senderismo - Ta0006-d',l:'',loc:'San Miguel de Tucumán',act:'Trekking · Senderismo',tel:'(0381)4479605 / 4355286'},
+{n:'Cabra Horco Expediciones',l:'',loc:'Raco',act:'Cabalgatas · Trekking',tel:'(0381)6788399'},
+{n:'Caminantes de Montaña',l:'',loc:'Concepción',act:'Trekking',tel:'(03865)675666'},
+{n:'Cocha Safaris – Ta 0002-d',l:'TA0002-',loc:'La Cocha',act:'Trekking · safaris fotográfico',tel:'+543865613924'},
+{n:'Cochuna Trekking',l:'TA-0050-P',loc:'Concepción',act:'Trekking · Montañismo',tel:'3865-439772'},
+{n:'Dos Pozos Turismo Activo',l:'',loc:'San Pedro de Colalao',act:'Trekking · Cabalgatas',tel:'(0381)5830889 / (0381)4453244'},
+{n:'Eco Aventuras Tucuman',l:'',loc:'San Miguel de Tucumán',act:'Trekking',tel:'(0381)6045969'},
+{n:'Entrenando En Senderos',l:'TA-0052-P',loc:'Alderetes',act:'Trekking · Alta Montaña',tel:'(0381)6045969'},
+{n:'Fundacion Coquena Dts Desarrollo Tur. Sustentable)',l:'',loc:'San Pedro de Colalao',act:'Trekking · Cabalgatas',tel:'(381)4723352 / (381)4901749 / (381)57439'},
+{n:'Guia de Raco-ta0056-d',l:'TA0056-D',loc:'Raco',act:'TREKKING',tel:'+543816908950'},
+{n:'High Trek Outdoors',l:'',loc:'Yerba Buena',act:'Trekking',tel:'(0381)6490247'},
+{n:'Horizonte Aventuras',l:'',loc:'San Miguel de Tucumán',act:'Cabalgatas · Trekking',tel:'(0381)6431085'},
+{n:'Kayak y Trekking',l:'',loc:'San Miguel de Tucumán',act:'Astroturismo · Trekking',tel:'(0381)5904073'},
+{n:'Kayaks del Noa Expediciones Acuáticas',l:'',loc:'San Miguel de Tucumán',act:'Kayaks · Canotaje',tel:''},
+{n:'La Mocha Trekk',l:'TA0055-P',loc:'Yerba Buena',act:'Trekking baja y media dificultad · Alta Montaña',tel:'+543816091967'},
+{n:'Loma Bola Parapente',l:'',loc:'San Javier',act:'Parapente · Vuelos Biplaza',tel:'(0381)4908454'},
+{n:'Los Pinos- san Javier',l:'',loc:'San Javier',act:'Parapente',tel:'(0381)6408593'},
+{n:'Movi Aventura',l:'',loc:'San Miguel de Tucumán',act:'Trekking',tel:'(03865)613650'},
+{n:'Namastrek',l:'',loc:'San Miguel de Tucumán',act:'Trekking',tel:'(0381)4471273'},
+{n:'Parapente san Javier - Ta0031-d',l:'',loc:'San Javier',act:'Parapente',tel:'(0381)4017997'},
+{n:'Poma Tafi del Valle',l:'TA0059-P',loc:'Tafí del Valle',act:'Trekking',tel:'+543812032123'},
+{n:'Purix',l:'',loc:'Lules',act:'Trekking',tel:'(0381)3595815'},
+{n:'Quenquiando Cerros',l:'TA-0047-P',loc:'Tafí Viejo',act:'Trekking · Mountain Bike',tel:'(0381)6325578'},
+{n:'Raki',l:'',loc:'Yerba Buena',act:'Tirolesa',tel:'(0381)5675037'},
+{n:'Rumi Escuela de Escalada',l:'TA-0054-P',loc:'Tafí del Valle',act:'Trekking · Escalada en roca',tel:'+543816219358,    +543804791746'},
+{n:'Senderos del Tafí',l:'',loc:'Tafí Viejo',act:'Trekking',tel:'(0381)6447687'},
+{n:'Sos Tierra Aventuras',l:'',loc:'Yerba Buena',act:'Trekking · Mountain Bike',tel:'(0381)2374444'},
+{n:'Sp Aventuras',l:'',loc:'San Pablo',act:'Trekking · Mountain bike',tel:'(0381)4097105'},
+{n:'Suyai',l:'',loc:'San Javier',act:'Cabalgatas · Trekking',tel:'(0381)5265036'},
+{n:'Sw Tucuman Aventuras',l:'',loc:'El Cadillal',act:'Canyoning · Trekkings',tel:'(0381)4923013 / (0381)6785988'},
+{n:'Titanium Salud & Deporte',l:'',loc:'San Miguel de Tucumán',act:'Trekking · Navegación',tel:'(0381)5417323'},
+{n:'Trekking Aventuras Tucuman',l:'TA-0060-P',loc:'San Miguel de Tucumán',act:'Trekking',tel:'+543813257023'},
+{n:'Trekking Tucuman',l:'',loc:'Yerba Buena',act:'Trekking',tel:'(0381)6300317'},
+{n:'Tucuman Kayak Club',l:'',loc:'El Cadillal',act:'Trekking · Alquiler de kayaks',tel:'(0381)5195817'},
+{n:'Turismo Tafi Viejo Ta- 0053-p',l:'TA-0053-P',loc:'Tafí Viejo',act:'Trekking',tel:'+543816130506'},
+{n:'Volar En Parapente',l:'TA-0033-P',loc:'San Javier',act:'Parapente',tel:'+543815771260'},
+{n:'Volar En Tucuman',l:'',loc:'San Javier',act:'Parapente',tel:'(0381)4629458'},
+{n:'Vuela Tucuman',l:'',loc:'San Javier',act:'Parapente',tel:'(0381)6888677'},
+{n:'Yoextremo',l:'',loc:'San Miguel de Tucumán',act:'Trekking',tel:'(0381)3816041766'}];
+
+/* ============ ESTADO/PERSISTENCIA ============ */
+let st=JSON.parse(localStorage.getItem('edv_v1')||'null')||{sellos:{},nocturnos:0,premios:{}};
+const save=()=>localStorage.setItem('edv_v1',JSON.stringify(st));
+
+/* ============ SUPABASE (best-effort: localStorage manda, sync si hay red) ============ */
+let SB=null;
+try{ if(window.CFG&&window.CFG.url&&typeof supabase!=='undefined'){SB=supabase.createClient(window.CFG.url,window.CFG.key)} }catch(e){}
+const uuid=()=>self.crypto&&crypto.randomUUID?crypto.randomUUID():'10000000-1000-4000-8000-100000000000'.replace(/[018]/g,c=>{const x=(c===8?8:(c^Math.floor(Math.random()*16)))&15;return x.toString(16)});
+const dbRid=()=>{if(!st.rid){st.rid=uuid();st.dev=uuid();save()}return st.rid};
+const dbDev=()=>{dbRid();return st.dev};
+const dbErr=(op,e)=>console.warn('[db '+op+']',e&&e.message||e);
+/* escritura genérica silenciosa (MVP sin auth: RLS permite alta anónima) */
+const dbIns=async(tab,row)=>{if(!SB)return;try{const{error}=await SB.from(tab).upsert(row);if(error)dbErr(tab,error)}catch(e){dbErr(tab,e)}};
+/* registro → fila de DB (mapeo valores del form al esquema) */
+const ORIG={SMT:'smt',TUC:'interior',AMBA:'amba',NOA:'noa',AR:'otra_ar',EX:'exterior'};
+const NOCHES={'1 noche':'1','2 a 3 noches':'2-3','4 a 7 noches':'4-7','8 noches o más':'8+','No me alojo (visita del día)':'dia'};
+const ALOJ={oficial:'red_ett',parahotel:'parahotel',familia:'casa',camping:'camping',ns:'ns'};
+const PER={'Solo yo':'solo','Con mi pareja':'pareja','Con chicos (en familia)':'chicos','Con amigos':'amigos'};
+function dbRegistro(){
+ const u=st.user;if(!u)return;
+ const w=u.nom.split(' ');const nom=w.shift()||u.nom;const ape=w.join(' ')||'—';
+ dbIns('registro',{id:dbRid(),dispositivo:dbDev(),fuente:'demo',nombre:nom,apellido:ape,
+  celular:u.tel||null,email:u.mail||null,origen:u.orig?(ORIG[u.orig]||'otra_ar'):null,quien_juega:PER[u.perf]||null,
+  noches:NOCHES[u.noches]||null,aloj_tipo:ALOJ[u.aloj]||'ns',optin:!!u.news,creado:new Date(u.ts).toISOString()});
+}
+function dbGrupoCreate(gid,cod,nom){
+ if(!SB)return;
+ dbIns('grupo',{id:gid,codigo:cod,nombre:nom,creado_por:dbRid()});
+ dbIns('grupo_miembro',{registro_id:dbRid(),grupo_id:gid});
+}
+function dbTrack(tipo,datos){
+ dbIns('evento',{registro_id:st.rid||null,dispositivo:st.dev||null,tipo,datos:datos||{}});
+}
+
+/* autocomplete de la red oficial ETT: los 187 alojamientos reales de la DB */
+const DEMO_HOTELES=[['Hostería Las Yungas','Yerba Buena'],['Cabañas El Cadillal','Tafí del Valle'],['Hotel La Ronda','Tafí del Valle'],['Posada El Sol','Colalao del Valle'],['Hostería de Escaba','J.B. Alberdi']];
+function llenarHoteles(rows){
+ const dl=$('lista-hoteles');if(!dl)return;
+ dl.innerHTML='';
+ rows.forEach(r=>{const nom=(r.nombre||'').trim();const o=document.createElement('option');o.value=nom+(r.loc?' ('+r.loc+')':'');dl.appendChild(o)});
+ console.log('[hoteles] autocompletado con',rows.length,'alojamientos');
+}
+if(SB){SB.from('alojamiento').select('nombre,localidad_nombre,adherido').eq('activo',true).order('localidad_nombre').order('nombre').then(({data,error})=>{
+  if(error||!data||!data.length){console.warn('[db hoteles]',error&&error.message);llenarHoteles(DEMO_HOTELES.map(h=>({nombre:h[0],loc:h[1]})));return}
+  llenarHoteles(data.map(r=>({nombre:r.nombre,loc:r.localidad_nombre})));
+ })}
+const tiene=id=>!!st.sellos[id];
+const TOT=SELLOS.length+3;
+const total=()=>Object.keys(st.sellos).length+Object.keys(st.yapa||{}).length;
+
+/* ============ UI ============ */
+const $=id=>document.getElementById(id);
+function toast(m,d=2200){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast._);toast._=setTimeout(()=>t.classList.remove('on'),d)}
+function verAloj(){
+ const esOf=$('f-aloj').value==='oficial';
+ $('f-aloj-oficial').classList.toggle('hidden',!esOf);
+}
+/* login social (visual/demo): en producción, OAuth de Supabase (Google/Facebook) o magic-link por WhatsApp.
+   Instagram no es proveedor OAuth nativo de Supabase — va por Facebook Login de su API. */
+const INVITADO={nom:'Invitado',tel:'',mail:'',orig:'',noches:'',aloj:'ns',hotel:'',perf:'',acep:true,news:false};
+function loginSocial(prov){
+ if(!st.user||!st.user.nom||st.user.nom===INVITADO.nom)st.user={...INVITADO,prov,ts:Date.now()};
+ else st.user.prov=prov;
+ save();dbTrack('login',{prov});
+ toast(prov==='invitado'
+  ?'Diario abierto en modo invitado 📖\nCompletá tus datos en Ajustes ⚙ para canjear premios.'
+  :'Entraste con '+prov+' ✅ Completá tus datos en Ajustes ⚙ para canjear premios.',3200);
+ go('home');
+}
+function registrar(e){
+ e.preventDefault();
+ st.user={
+  nom:$('f-nom').value.trim(),
+  tel:$('f-tel').value.trim(),
+  mail:$('f-mail').value.trim(),
+  orig:$('f-orig').value,
+  noches:$('f-noches').value,
+  aloj:$('f-aloj').value,
+  hotel:$('f-aloj').value==='oficial'?$('f-hotel').value.trim():'',
+  perf:$('f-per').value,
+  acep:$('f-acep').checked,
+  news:$('f-news').checked,
+  ts:Date.now()
+ };
+ save();dbRegistro();dbTrack('registro',{edit:!!EDIT});
+ toast(EDIT?'✔ Datos actualizados':'¡Perfil guardado a nombre de '+st.user.nom.split(' ')[0]+'! 📖',2600);
+ go('ajus');EDIT=0;renderAjustes();
+ document.querySelector('#v-reg .btn-principal').textContent='GUARDAR MIS DATOS';
+ return false;
+}
+function comoJugar(){
+ $('ficha-in').innerHTML=`
+  <button class="close" onclick="cierraFicha()">✕</button>
+  <span class="tag" style="background:var(--cB)">CÓMO SE JUEGA</span>
+  <img class="wayki" src="assets/wayki-mapav2.png">
+  <h3>Cómo se juega</h3>
+  <p class="curio" style="margin-top:10px">
+   <b>1.</b> Recorré Tucumán: cada punto tiene <b>QR físico</b> y acá llega por GPS.<br><br>
+   <b>2.</b> Estás a menos de 150 m del punto → toca <b>CHECK-IN</b> y te llevás el sello.<br><br>
+   <b>3.</b> Con <b>3 sellos</b> desbloqueás tu primer premio; con <b>7 + una noche</b>, el kit completo (el sello nocturno cuenta doble ${I.star}).<br><br>
+   <b>4.</b> Los rangos —Compañero→Hermano— te acercan al sorteo y al cierre del verano.<br><br>
+   Tu diario vive en tu celu — entrás con Google o tus redes en un toque; los datos para premios van en Ajustes.</p>
+  <button class="btn btn-principal" onclick="cierraFicha()">Entendido, jugamos</button>`;
+ $('ficha').classList.remove('hidden');
+}
+function go(v){
+ ['on','home','mapas','premios','reg','ajus','datos'].forEach(x=>$('v-'+x).classList.toggle('hidden',x!==v));
+ if(v==='home'&&st.user)renderHome();
+ if(v==='mapas')renderMapas();
+ if(v==='premios')renderPremios();
+ const tabs=$('tabs');
+ tabs.classList.toggle('hidden',v==='reg'||v==='on');
+ [...tabs.children].forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+ window.scrollTo(0,0);
+}
+function rangoOf(n){return n>=20?['Hermano',20]:n>=12?['Amigo',12]:['Compañero',3]}
+/* Mapas: contadores de sellos por circuito en las cards de folletos */
+function renderMapas(){
+ document.querySelectorAll('.cnt-c[data-cir]').forEach(el=>{
+  const c=el.dataset.cir;
+  const tot=SELLOS.filter(s=>s.cir===c).length;
+  const n=SELLOS.filter(s=>s.cir===c&&st.sellos[s.id]).length;
+  el.textContent=`${tot} sellos · llevás ${n}`;
+ });
+}
+/* Cross-link folleto → diario: salta a Mi diario con el circuito filtrado */
+function irCircuito(c){
+ go('home');
+ const b=[...$('chips').children].find(x=>x.dataset.ci===c);
+ if(b)renderGrid(c,b);
+}
+function renderHome(){
+ const n=total();
+ const rn=rangoOf(n)[0];
+ const meta=[3,12,20].find(m=>n<m)||20;
+ const nomU=$('rango-nom-u'),grpU=$('rango-grp'),avU=$('rango-av');
+ nomU.textContent=st.user?st.user.nom:'—';
+ if(st.user){avU.classList.remove('hidden');avU.innerHTML=st.user.foto?(('<img src="'+st.user.foto+'" alt="">')):(st.user.nom.split(' ').map(w=>w[0]).slice(0,2).join(''))}
+ else avU.classList.add('hidden');
+ if(st.grupo){grpU.textContent=st.grupo.nom;grpU.classList.remove('hidden')}
+ else grpU.classList.add('hidden');
+ $('rango-nom').textContent=rn;
+ $('rango-cont').textContent=n+'/'+TOT;
+ $('rango-barra').style.width=Math.min(100,n/20*100)+'%';
+ $('rango-next').textContent=`${n>=3?'Premios desbloqueados: '+[3,5,7].filter(p=>n>=p&&(p!=7||st.nocturnos>0)).length+'/3 · ':''}Un sello más: ${meta-n} hacia ${meta==20?'Hermano':meta==12?'Amigo':'tu 1er premio'}`;
+ const ks=Object.keys(st.sellos).filter(k=>SELLOS.some(z=>z.id===k));
+ const circos=new Set(ks.map(k=>k[0]));
+ $('rango-disp').textContent=`Dispersión: ${circos.size}/5 circuitos · ${st.nocturnos} ${st.nocturnos===1?'noche dormida':'noches dormidas'} · ${Object.keys(st.yapa||{}).length} ${Object.keys(st.yapa||{}).length===1?'yapa':'yapas'}`;
+ const nb=$('noct-badge');if(nb)nb.textContent=st.nocturnos>0?('x2 · '+st.nocturnos+' ✔'):'x2';
+ const chips=$('chips');chips.innerHTML='';
+ ['A','B','C','D','E'].forEach(c=>{
+   const b=document.createElement('button');
+   const l=CIR[c];
+   b.innerHTML=`<img class="chip-logo" src="${l.logo}" alt="">${l.n}`;
+   b.dataset.ci=c;
+   chips.appendChild(b);
+   b.onclick=()=>renderGrid(c,b);
+ });
+ renderGrid('A',chips.firstChild);
+ renderPremios();
+}
+function renderGrid(c,btn){
+ document.documentElement.style.setProperty('--ci',CIR[c].col);
+ if(btn){lastChip=btn;[...btn.parentElement.children].forEach(x=>x.classList.toggle('on',x===btn));}
+ CURRENT=c;
+ const g=$('grid');g.innerHTML='';
+ let i=0;
+ SELLOS.filter(s=>s.cir===c).forEach(s=>{
+   const d=document.createElement('div');
+   d.className='sello '+(tiene(s.id)?'ok':'sin');
+   d.style.setProperty('--ci',CIR[s.cir].col);
+   d.style.setProperty('--i',i++);
+   const pro=s.mar&&s.mar.pro?PRODUCTOS.find(p=>p.id===s.mar.pro):null;
+   const pro2=s.mar&&s.mar.pro2?PRODUCTOS.find(p=>p.id===s.mar.pro2):null;
+   const marks=[];
+   if(s.mar&&s.mar.poi)marks.push(`<span class="ch" title="POI — check-in con foto">${POICAM}</span>`);
+   if(pro)marks.push(`<span class="ch" title="Ruta: ${pro.nom}"><img src="${pro.logo}" alt="Ruta ${pro.nom}"></span>`);
+   if(pro2)marks.push(`<span class="ch" title="Ruta: ${pro2.nom}"><img src="${pro2.logo}" alt="Ruta ${pro2.nom}"></span>`);
+   const bmar=marks.length?`<div class="bmar">${marks.join('')}</div>`:'';
+   const fots=(s.fotos||['https://picsum.photos/seed/edv'+s.id+'/800/450']).map(u=>`<img src="${u}" loading="lazy" onerror="this.onerror=null;this.src='assets/textura.png'">`).join('');
+   d.innerHTML=`<div class="foto-z"><div class="fotos">${fots}</div><span class="dest">${DEST[s.id]||CIR[s.cir].n}</span>${bmar}</div><div class="cuerpo"><div class="nom">${s.nom}</div><div class="est">✔ SELLO CONSEGUIDO</div></div>`;
+   d.onclick=()=>ficha(s);
+   g.appendChild(d);
+ });
+}
+function ficha(s){
+ const ci=CIR[s.cir].col;
+ const real=!!s.lat;
+ const fotos=s.fotos||['https://picsum.photos/seed/edv'+s.id+'/800/450'];
+ const pro=s.mar&&s.mar.pro?PRODUCTOS.find(p=>p.id===s.mar.pro):null;
+ const pro2=s.mar&&s.mar.pro2?PRODUCTOS.find(p=>p.id===s.mar.pro2):null;
+ const marks=[];
+ if(s.mar&&s.mar.poi)marks.push(`<span class="ch" title="POI — check-in con foto">${POICAM}</span>`);
+ if(pro)marks.push(`<span class="ch" title="Ruta: ${pro.nom}"><img src="${pro.logo}" alt="Ruta ${pro.nom}"></span>`);
+ if(pro2)marks.push(`<span class="ch" title="Ruta: ${pro2.nom}"><img src="${pro2.logo}" alt="Ruta ${pro2.nom}"></span>`);
+ $('ficha-in').innerHTML=`
+  <button class="close" onclick="cierraFicha()">✕</button>
+  <span class="tag" style="background:${ci}">CAPÍTULO ${s.id} · ${CIR[s.cir].n}</span>
+  <div class="gal">
+   <div class="gal-z">
+    <img class="gal-main" id="galM" src="${fotos[0]}" onerror="this.onerror=null;this.src='assets/textura.png'">
+    ${marks.length?`<div class="lchip">${marks.join('')}</div>`:''}
+   </div>
+   ${fotos.length>1?`<div class="gal-t">${fotos.map((u,i)=>`<img src="${u}" class="${i===0?'on':''}" onerror="this.onerror=null;this.src='assets/textura.png'" onclick="vuelta('${s.id}',${i})">`).join('')}</div>`:''}
+  </div>
+  <h3>${s.nom}</h3>
+  <img class="wayki" src="assets/wayki-pose-qr.png">
+  <p class="curio">${s.curio}</p>
+  ${LUG[s.id]?`<ul class="lug" style="--ci:${ci}">${LUG[s.id].map(l=>`<li><b>${l.n}</b>${l.d?` <span class="ld">· ${l.d}</span>`:''}${l.x?`<span class="lx">${l.x}</span>`:''}</li>`).join('')}</ul>`:''}
+  ${SAB[s.id]&&SAB[s.id].length?`<ul class="lug comi" style="--ci:${ci}">${SAB[s.id].map(c=>`<li><img src="assets/comidas/${c.f}.webp" alt="" loading="lazy"><span><b>${c.n}</b><span class="ld">${c.l?'· '+c.l:''}</span>${c.x?`<span class="lx">${c.x}</span>`:''}</span></li>`).join('')}</ul>`:''}
+  ${tiene(s.id)
+    ?`<p class="curio" style="color:var(--teal);font-weight:800;margin-top:10px">✔ Sello conseguido${st.sellos[s.id]?` — sellado con ${st.sellos[s.id].medio} · ${new Date(st.sellos[s.id].ts).toLocaleDateString('es-AR')}`:''}</p>
+   ${selfieBox(s)}
+   ${st.yapa&&st.yapa[s.id]
+      ?`<p class="curio" style="color:var(--teal);font-weight:800;margin-top:8px">${I.post} Tu sello ya está en Instagram (+1 yapa · ${new Date(st.yapa[s.id].ts).toLocaleDateString('es-AR')})</p>`
+      :`<button class="btn btn-principal" style="margin-top:10px" onclick="compartir('${s.id}')">${I.camera} COMPARTIR ${selfieDe(s)?'CON TU SELFIE':'MI SELLO'} (+1 YAPA)</button>`}`
+    :`<div class="metaI">${I.pin + (real?' Radio 150 m':' Validá las coordenadas en el sello')}</div>
+      ${real?'<button class="btn btn-principal" onclick="gps(\''+s.id+'\')">✔ CHECK-IN (GPS)</button>'
+            :'<button class="btn btn-principal" onclick="stamp(\'SIM\',\''+s.id+'\')">✔ CHECK-IN (MODO MANUAL)</button>'}
+      <button class="btn btn-ghost" onclick="qrSim('${s.id}')">¿Sin señal? Escanear el QR del punto</button>`}
+  ${prestaBox(s)}
+  <p class="metaI">${I.map} Cómo llegar: ${DIR[s.id]||'consultá en informes del Ente (24 de Septiembre 486, San Miguel de Tucumán · 0381 4303644)'} · <a href="${gooLink(s)}" target="_blank" rel="noopener">Abrir en Maps ↗</a></p>
+  ${FOLLETO[s.cir]?`<p class="metaI">${I.doc} <a href="assets/folletos/${FOLLETO[s.cir]}" target="_blank" rel="noopener">Folleto oficial del circuito ${CIR[s.cir].n} ↗</a></p>`:''}`;
+ $('ficha').classList.remove('hidden');
+}
+const cierraFicha=()=>{if(typeof AG!=='undefined'&&AG.stream){AG.stream.getTracks().forEach(t=>t.stop());AG.stream=null;clearTimeout(AG.auto)}$('ficha').classList.add('hidden')};
+/* compartir sello = yapa (tope 3/temporada) */
+const CAPTION=s=>`Sellé ${s.nom} con el Diario de Wayki 🦫 Tucumán tiene todo\n#ElJuegoDelVerano #JugáElVerano #TucumánTieneTodo`;
+function wrapC(x,txt,cx,cy,maxW,lh){const p=txt.split(' ');let line='',y=cy;for(const w of p){const t=line?line+' '+w:w;if(x.measureText(t).width>maxW&&line){x.fillText(line,cx,y);line=w;y+=lh}else line=t}x.fillText(line,cx,y)}
+function imgOK(src){return new Promise(ok=>{const i=new Image();i.onload=()=>ok(i);i.onerror=()=>ok(null);i.src=src})}
+async function compartir(id){
+ const s=SELLOS.find(z=>z.id===id);
+ toast('Generando tu tarjeta…',1200);
+ const sel=selfieDe(s);
+ const c=document.createElement('canvas');c.width=1080;c.height=1080;const x=c.getContext('2d');
+ x.fillStyle='#FBF6E4';x.fillRect(0,0,1080,1080);
+ x.strokeStyle='#00373F';x.lineWidth=16;x.strokeRect(40,40,1000,1000);
+ const foto=await imgOK(sel)||await imgOK((s.fotos||['https://picsum.photos/seed/edv'+id+'/800/450'])[0]);
+ if(foto){x.save();x.beginPath();x.arc(540,470,310,0,7);x.clip();x.drawImage(foto,230,160,620,620);x.restore();
+  x.beginPath();x.arc(540,470,318,0,7);x.lineWidth=10;x.stroke();}
+ else{x.fillStyle='#608F5C';x.beginPath();x.arc(540,470,310,0,7);x.fill()}
+ const w=await imgOK('assets/wayki-pose-celebrando.png');
+ if(w){const hw=250,hh=w.height*hw/w.width;x.drawImage(w,930-hw,730-hh/2,hw,hh)}
+ await document.fonts.ready;
+ x.fillStyle='#00373F';x.textAlign='center';
+ x.font='700 38px "Space Mono",monospace';x.fillText('EL JUEGO DEL VERANO · TUCUMÁN',540,120);
+ x.font='96px Gobold,Impact,sans-serif';wrapC(x,s.nom,540,855,880,100);
+ x.font='700 40px "Space Mono",monospace';x.fillStyle='#006E66';x.fillText('#ElJuegoDelVerano #TucumánTieneTodo',540,995);
+ const dt=c.toDataURL('image/png');
+ st.yapa=st.yapa||{};
+ const nueva=!st.yapa[id];
+ if(nueva){st.yapa[id]={ts:Date.now()};save();dbIns('yapa',{registro_id:dbRid(),sello_id:id});dbTrack('yapa',{sello:id})}
+ $('ficha-in').innerHTML=`
+  <button class="close" onclick="cierraFicha()">✕</button>
+  <span class="tag" style="background:var(--cB)">TARJETA PARA INSTAGRAM</span>
+  <img src="${dt}" style="width:78%;margin:12px auto 0;display:block;border-radius:16px;border:2px solid var(--petroleo)">
+  ${sel?`<p class="curio" style="color:var(--teal);font-weight:800;margin-top:10px">${I.camera} La tarjeta salió con tu selfie del lugar</p>`:''}
+  <p class="curio" style="margin-top:12px"><b>Copiala y subila a Instagram</b> (post o story) con este caption:</p>
+  <p class="curio" style="background:#fff;border:2px solid var(--linea);border-radius:12px;padding:10px 12px;font-size:13px">${CAPTION(s).replace(/\n/g,'<br>')}</p>
+  <button class="btn btn-principal" onclick="baixar(this)">⤓ DESCARGAR LA TARJETA</button>
+  <button class="btn btn-ghost" onclick="copiarCap('${s.id}')">⎘ Copiar caption</button>
+  ${nueva?`<p class="curio" style="color:var(--teal);font-weight:800;margin-top:10px">✔ +1 YAPA sumada a tu diario · tope 3 por temporada</p>`
+         :`<p class="curio" style="margin-top:10px">Ya compartiste este sello — las yapas son 3 por temporada.</p>`}
+  <div class="breve-note">En Temporada 0 el Ente encuentra tu post por los hashtags y te lo repostea (flujo de moderación, GDD §5).</div>`;
+ $('ficha').classList.remove('hidden');
+}
+function baixar(el){
+ const a=document.createElement('a');a.href=el.closest('.ficha-in').querySelector('img').src;a.download='diario-wayki-'+(st.user?st.user.nom.split(' ')[0].toLowerCase():'sello')+'.png';a.click();
+ toast('Tarjeta descargada ⤓',1800);
+}
+function copiarCap(id){
+ navigator.clipboard&&navigator.clipboard.writeText(CAPTION(SELLOS.find(z=>z.id===id))).then(()=>toast('Caption copiado ⎘',1600),()=>toast('Copia manual del caption por ahora',1600));
+}
+function vuelta(id,i){
+ const s=SELLOS.find(x=>x.id===id);
+ const fotos=s.fotos||['https://picsum.photos/seed/edv'+id+'/800/450'];
+ $('galM').src=fotos[i];
+ document.querySelectorAll('.gal-t img').forEach((t,j)=>t.classList.toggle('on',j===i));
+}
+function gps(id){
+ const s=SELLOS.find(x=>x.id===id);
+ if(!navigator.geolocation){toast('Tu navegador no da GPS — usá el QR de respaldo');return}
+ toast('Buscando tu ubicación…',900);
+ navigator.geolocation.getCurrentPosition(p=>{
+   const d=dHav(p.coords.latitude,p.coords.longitude,s.lat,s.lng);
+   if(d<=150){stamp('GPS',id)}
+   else{toast('Estás a '+d.toFixed(2)+' km del punto ❌\nSi estás en el punto, probá el QR de respaldo 🎟️',3200)}
+ },
+ ()=>toast('No pude leer el GPS (permiso denegado).\nUsá el QR de respaldo 🎟️',3200),
+ {enableHighAccuracy:true,timeout:8000});
+}
+function qrSim(id){
+ const c=$('cam');c.classList.remove('hidden');
+ setTimeout(()=>{c.classList.add('hidden');stamp('QR',id)},1900);
+}
+function stamp(medio,id){
+ if(tiene(id))return toast('Ya tenés este sello ✔');
+ if(medio==='SIM'){/* demo sin estado real de premio */}
+ const ax=st.agx2&&st.agencia;
+ st.sellos[id]={medio,ts:Date.now()};
+ if(ax){st.sellos['X'+id]={medio:'AGENCIA '+st.agencia.l,ts:Date.now()};st.agx2=false}
+ save();
+ dbIns('checkin',{registro_id:dbRid(),dispositivo:dbDev(),sello_id:id,medio:medio.toLowerCase(),nota:ax?{agencia:st.agencia.l}:{}});
+ dbTrack('checkin',{sello:id,medio,bonus_ax:ax?'x2':null});cierraFicha();
+ const c=$('v-home').classList.contains('hidden');if(!c)renderGrid(current(),lastChip);
+ renderPremios();
+ const sp=$('stamp');sp.style.display='flex';
+ setTimeout(()=>{sp.style.display='none';toast('¡SELLO '+id+' CONSEGUIDO! ('+medio+')'+(ax?' ⭐ VALE X2 — vinculaste con '+st.agencia.n:''),ax?3600:3200)},920);
+}
+/* nocturno */
+function abrirNocturno(){
+ $('ficha-in').innerHTML=`
+  <button class="close" onclick="cierraFicha()">✕</button>
+  <span class="tag" style="background:var(--teal)">SELLO N1 · VALE x2 ${I.star}</span>
+  <img class="wayki" src="assets/wayki-dormido.png">
+  <h3>¡Noche en Tucumán!</h3>
+  <p class="curio">"Dormir acá también suma." Elegí tu alojamiento de la red oficial (187 en la base real del sitio).</p>
+  <button class="btn btn-principal" onclick="noctGps()">${I.pin} CHECK-IN GPS EN EL HOTEL</button>
+  <button class="btn btn-ghost" onclick="noctCod()">${I.key} Código de recepción (backup)</button>
+  <div class="breve-note">Demo: Hostería Las Yungas YB · Cabañas El Cadillal · Hotel La Ronda Tafí · Posada El Sol Colalao · Hostería de Escaba</div>`;
+ $('ficha').classList.remove('hidden');
+}
+function noctGps(){toast('Demo: check-in en hotel (GPS) ✔',1500);noctOk('GPS')}
+function noctCod(){
+ const c=prompt('Código de recepción (demo: escribí DEMO):');
+ if(c&&c.trim()!=='') noctOk('código'); else toast('Sin código no hay sello — pedilo en recepción',2200);
+}
+function noctOk(medio){
+ st.nocturnos++;st.sellos['N1-'+st.nocturnos]={medio:'NOCTURNO',ts:Date.now()};save();
+ dbIns('checkin',{registro_id:dbRid(),dispositivo:dbDev(),sello_id:'N1',medio:medio==='código'?'codigo':'hotel',nota:{}});
+ cierraFicha();
+ renderPremios();
+ const nb=$('noct-badge');if(nb)nb.textContent='x2 · '+st.nocturnos+' ✔';
+ renderGrid(current(),lastChip);
+ const sp=$('stamp');sp.style.display='flex';
+ setTimeout(()=>{sp.style.display='none';toast('¡SELLO NOCTURNO ('+medio+')! ⭐ Cuenta doble: sellos totales = '+(total()-st.nocturnos+st.nocturnos),2800)},900);
+}
+/* agencias receptivas (bonus x2 — GDD §4.5 · padrón público del Ente: 15 inscriptas, 6 ATR).
+   La receptiva trae turistas y gestiona pasajes/alojamiento; no vende excursiones.
+   Mecánica: elegís tu agencia → escaneás el QR que te comparte al llegar → quedás vinculado
+   a tu contratación para venir a Tucumán y tu próximo check-in vale x2. */
+const AG={sel:null,ctx:null,stream:null,auto:null,i:null};
+function abrAgencia(ctx){
+ AG.ctx=ctx||null;
+ $('ficha-in').innerHTML=`
+  <button class="close" onclick="cierraFicha()">✕</button>
+  <span class="tag" style="background:var(--coral)">BONUS AGENCIA · VALE x2 ${I.star}</span>
+  <img class="wayki" src="assets/wayki-guia.png">
+  <h3>Viajaste con tucumanos</h3>
+  <p class="curio">La agencia receptiva te trajo y te aloja. Elegí su nombre en el padrón público del Ente y al llegar <b>escaneá el QR que te comparte</b>: vinculamos tu contratación y <b>tu próximo check-in vale x2</b> — mismo peso que el nocturno.</p>
+  <div style="max-height:44vh;overflow:auto;margin-top:6px">
+  ${AGENCIAS.map((a,i)=>`<div class="noct-card" style="margin-top:8px" onclick="agSel(${i})"><div style="flex:1"><b style="font-size:13px">${a.n}</b><div class="next">${a.l} · ${a.loc}${a.l.indexOf('ATR')===0?' · <b style="color:var(--coral)">receptiva</b>':''}</div></div><span class="badge">x2</span></div>`).join('')}
+  </div>
+  <div class="breve-note">Padrón público del Ente · 15 agencias inscriptas (6 ATR receptivas)</div>`;
+ $('ficha').classList.remove('hidden');
+}
+function agSel(i){
+ AG.i=i;const a=AGENCIAS[i];
+ const tels=[a.tel,(a.tel2||'')].filter(Boolean).join(' · ');
+ const datos=[
+  a.dir?`<div class="ag-dato">📍 <span>${a.dir} · ${a.loc}</span></div>`:'',
+  tels?`<div class="ag-dato">☎ <a href="tel:${(a.tel||a.tel2).replace(/[^+0-9]/g,'')}">${tels}</a></div>`:'',
+  a.mail?`<div class="ag-dato">✉ <a href="mailto:${a.mail}">${a.mail}</a></div>`:'',
+  a.web?`<div class="ag-dato">🌐 <a href="${a.web}" target="_blank" rel="noopener">${a.web.replace(/^https?:\/\/(www\.)?/,'')}</a></div>`:'',
+  a.ig?`<div class="ag-dato">📷 <a href="${a.ig}" target="_blank" rel="noopener">${a.ig.replace(/^https?:\/\/(www\.)?instagram\.com\//,'@')}</a></div>`:''
+ ].filter(Boolean).join('');
+ $('ficha-in').innerHTML=`
+  <button class="close" onclick="cierraFicha()">✕</button>
+  <span class="tag" style="background:var(--coral)">BONUS AGENCIA · VALE x2 ${I.star}</span>
+  <h3>${a.n}</h3>
+  <p class="curio">${a.l} — escaneá el QR de la agencia</p>
+  ${datos?`<div class="ag-datos">${datos}</div>`:''}
+  <div class="visor-ag"><video id="ag-video" autoplay playsinline muted></video><div class="ag-frame"></div></div>
+  <div id="ag-estado" style="font-weight:800;margin-top:10px">Buscando el QR de la agencia…</div>`;
+ $('ficha').classList.remove('hidden');
+ agCam();
+}
+function agCam(){
+ const v=$('ag-video');
+ if(!v||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)return agSinCam();
+ navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false})
+  .then(s=>{AG.stream=s;v.srcObject=s;AG.auto=setTimeout(agDetecta,3000)})
+  .catch(()=>agSinCam());
+}
+function agSinCam(){
+ $('ag-estado').innerHTML='<b>Cámara no disponible en este dispositivo</b> (por HTTPS o permiso) — para la demo:<button class="btn btn-ghost" style="margin:6px auto 0;display:block" onclick="agDetecta()">SIMULAR EL ESCANEO</button>';
+}
+function agDetecta(){
+ clearTimeout(AG.auto);
+ const a=AGENCIAS[AG.i];if(!a)return;
+ if(AG.stream){AG.stream.getTracks().forEach(t=>t.stop());AG.stream=null}
+ const v=$('ag-video');if(v)v.pause();
+ $('ag-estado').innerHTML=`✓ QR detectado: <b>${a.l}</b> · ${a.n}<button class="btn btn-principal" style="margin:10px auto 0;display:block" onclick="agOk()">VINCULAR MI VIAJE ${I.star}</button>`;
+}
+function agOk(){
+ const a=AGENCIAS[AG.i],ctx=AG.ctx;
+ if(!a)return;
+ st.agencia={n:a.n,l:a.l,ts:Date.now()};st.agx2=true;save();
+ dbTrack('agencia',{agencia:a.l,medio:'QR AGENCIA'});
+ AG.ctx=null;
+ if(ctx&&!tiene(ctx))return stamp('QR AGENCIA',ctx);
+ cierraFicha();
+ toast('📣 ¡Vinculaste tu viaje con '+a.n+' ('+a.l+')! Tu próximo check-in vale X2',3600);
+}
+/* guías + prestadores de turismo activo (bonus x2 — GDD §4.5 · padrón público: 41 guías GPS-#### + 46 prestadores TA-####-P) */
+const GP={tab:'G',ctx:null,fir:'TODAS'};
+/* localidad de base → circuito del juego (A ciudad · B yungas urbanas · C calchaquíes · D choromoro · E sur).
+   Regla por dato: guias 'Provincial' habilitados en toda la provincia ('*'); Local/de Sitio y prestadores, por su localidad. */
+const norm=(s)=>(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,' ').trim();
+const LOC_CIR={'smt':'A','san miguel de tucuman':'A','yerba buena':'B','tafi viejo':'B','las talitas':'B','alderetes':'B','lules':'B','banda del rio sali':'B','villa nougues':'B','san javier':'B','raco':'B','el cadillal':'B','san pablo':'B','tafi del valle':'C','ampimpa':'C','talapazo':'C','amaicha del valle':'C','colalao del valle':'C','el mollar':'C','san carlos':'C','quilmes':'C','san pedro de colalao':'D','trancas':'D','choromoro':'D','santa ana':'D','burruyacu':'D','concepcion':'E','aguilares':'E','la cocha':'E','simoca':'E','famailla':'E','monteros':'E','alberdi':'E'};
+function cirDe(G,r){
+ if(G){const t=(r.t||'').toLowerCase();
+  if(/local|sitio/.test(t))return LOC_CIR[norm(r.loc)]||'';
+  return /provincial|provicial|profesional/.test(t)?'*':(LOC_CIR[norm(r.loc)]||'');}
+ return LOC_CIR[norm(r.loc)]||'';
+}
+function abrGuiaPrest(ctx){
+ GP.ctx=ctx||null;GP.tab='G';
+ gpPinta();
+ $('ficha').classList.remove('hidden');
+}
+function gpTab(t){GP.tab=t;gpPinta()}
+function gpPinta(){
+ const G=GP.tab==='G';
+ const L=(G?GUIAS:PRESTADORES).map((r,i)=>({r,i,c:G?'':cirDe(G,r)}));
+ const fil=!G;
+ const f=fil?GP.fir:'TODAS';
+ const vis=fil&&f!=='TODAS'?L.filter(x=>x.c===f):L;
+ const cnt=c=>c==='TODAS'?L.length:L.filter(x=>x.c===c).length;
+ const chip=c=>{const on=f===c;return `<button class="btn" style="width:auto;flex:1 1 28%;margin-top:0;padding:4px 2px;background:none;border:0;box-shadow:none;opacity:${on?1:.5}" title="${c==='TODAS'?'Todo el padrón en vivo':cnt(c)+' con base en '+CIR[c].n}" onclick="gpFir('${c}')"><span style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:6px">${c==='TODAS'?`<b style="font-size:11.5px;letter-spacing:.5px">TODAS</b>`:`<img src="${CIR[c].logo}" style="height:26px" alt="${c}">`}<b class="badge" style="font-size:11px;padding:2px 8px;margin:0;background:${on?'var(--amar)':'var(--papel)'}">${cnt(c)}</b></span></button>`};
+ const badge=x=>x.c?`<span class="badge badge-cir" style="padding:4px 6px" title="${CIR[x.c].n}"><img src="${CIR[x.c].logo}" alt="${x.c}"></span>`:'';
+ $('ficha-in').innerHTML=`
+  <button class="close" onclick="cierraFicha()">✕</button>
+  <span class="tag" style="background:var(--teal)">BONUS GUÍAS Y PRESTADORES · VALE x2 ${I.star}</span>
+  <img class="wayki" src="assets/wayki-excurcionista.png">
+  <h3>En manos de quienes saben</h3>
+  <p class="curio">Tu excursión corrió por un profesional del padrón público del Ente: el QR del guía o prestador acredita el punto y <b>ese sello vale x2</b> — mismo peso que el nocturno.</p>
+  <div style="display:flex;gap:8px;margin-top:8px">
+   <button class="btn ${G?'btn-principal':'btn-ghost'}" style="flex:1;padding:9px 6px;font-size:12px" onclick="gpTab('G')">GUÍAS (${GUIAS.length})</button>
+   <button class="btn ${G?'btn-ghost':'btn-principal'}" style="flex:1;padding:9px 6px;font-size:12px" onclick="gpTab('P')">PRESTADORES (${PRESTADORES.length})</button>
+  </div>
+  ${fil?`<div class="chips-fir">${['TODAS','A','B','C','D','E'].filter(c=>c==='TODAS'||cnt(c)>0).map(chip).join('')}</div>`:''}
+  <div style="max-height:38vh;overflow:auto;margin-top:6px">
+  ${vis.map(({r,i,c})=>`<div class="noct-card" style="margin-top:8px" onclick="gpPaso(${i})"><div style="flex:1;min-width:0"><b style="font-size:13px">${r.n}</b><div class="next">${G?(r.t+' · '+r.loc):(r.act+' · '+r.loc)}</div></div><span style="display:flex;gap:4px;align-items:center">${badge({c})}<span class="badge">x2</span></span></div>`).join('')}
+  </div>
+  <div class="breve-note">${G?'Guías registrados GPS-#### (41 en el padrón en vivo 30/10/2026) · habilitados en toda la provincia':'Prestadores de turismo activo TA-####-P (46 en el padrón en vivo 30/10/2026) · filtrá por el circuito que vas a recorrer'}. En producción el QR lo genera su credencial digital (GDD §4.5).</div>`;
+}
+function gpFir(c){GP.fir=c;gpPinta()}
+function gpPaso(i){
+ if(GP.ctx)return gpOk(GP.tab,i,GP.ctx);
+ const pend=SELLOS.filter(s=>!tiene(s.id));
+ if(!pend.length)return toast('¡Ya marcaste todos los sellos del diario! 🎉',2600);
+ const G=GP.tab==='G',r=(G?GUIAS:PRESTADORES)[i];
+ $('ficha-in').innerHTML=`
+  <button class="close" onclick="cierraFicha()">✕</button>
+  <span class="tag" style="background:var(--teal)">BONUS GUÍAS Y PRESTADORES · VALE x2 ${I.star}</span>
+  <img class="wayki" src="assets/wayki-excurcionista.png">
+  <h3>${r.n}</h3>
+  <p class="curio">${r.l} — ¿qué punto recorriste con ${/^(Adri y Fer|Aredes)/.test(r.n)?'los profesionales':'él o ella'}?</p>
+  <div style="max-height:38vh;overflow:auto;margin-top:6px">
+  ${pend.map(s=>`<div class="noct-card" style="margin-top:8px" onclick="gpOk('${GP.tab}',${i},'${s.id}')"><div style="flex:1"><b style="font-size:13px">${s.nom}</b><div class="next">${CIR[s.cir].n}</div></div><span class="badge">x2</span></div>`).join('')}
+  </div>
+  <div class="breve-note">Demo temporada 0: marcás vos el punto del recorrido. En producción lo acredita el guía con su QR.</div>`;
+}
+function gpOk(tab,i,id){
+ const G=tab==='G',r=(G?GUIAS:PRESTADORES)[i],s=SELLOS.find(z=>z.id===id);
+ if(!r||!s||tiene(id))return toast('Ese sello ya está en tu diario ✔');
+ const clave='G'+tab+id+'-'+r.l;
+ st.sellos[id]={medio:G?'QR GUÍA':'QR PRESTADOR',ts:Date.now()};
+ st.sellos[clave]={medio:'BONUS '+(G?'guía':'prestador')+' '+r.l,ts:Date.now()};
+ save();
+ dbIns('checkin',{registro_id:dbRid(),dispositivo:dbDev(),sello_id:id,medio:G?'guia':'prestador',nota:{legajo:r.l}});
+ dbTrack('checkin',{sello:id,medio:G?'QR GUÍA':'QR PRESTADOR'});
+ cierraFicha();
+ renderPremios();
+ const c=$('v-home').classList.contains('hidden');if(!c)renderGrid(current(),lastChip);
+ const sp=$('stamp');sp.style.display='flex';
+ setTimeout(()=>{sp.style.display='none';toast('¡SELLO '+id+' VALE X2! 📣 Acreditado con '+r.n+' ('+r.l+')',3600)},920);
+}
+/* premios */
+function renderPremios(){
+ const l=$('lista-premios');if(!l)return;l.innerHTML='';
+ const noct=st.nocturnos>0;
+ PREMIOS.forEach(p=>{
+   const ok=p.req? (total()>=p.n&&noct) : total()>=p.n;
+   const done=!!st.premios['p'+p.n];
+   const d=document.createElement('div');
+   d.className='premio '+(done?'done':'');
+   d.innerHTML=`<div class="n">${done?'✔':p.n}</div>
+    <div class="d"><b>${p.txt}</b>${p.req?'<div class="req">Requiere: '+p.req+' — '+(noct?'✓ tenés nocturno':'✗ sin nocturno')+'</div>':''}
+    <div class="req">${p.donde}</div></div>`;
+   if(ok&&!done){
+     const b=document.createElement('button');
+     b.className='btn btn-teal';b.style.cssText='width:auto;padding:9px 16px;font-size:12px;margin:0;flex:0 0 auto;margin-left:auto';
+     b.textContent='CANJEAR';
+     b.onclick=()=>{
+       if(!st.user||!st.user.tel){toast('Antes de canjear, completá tu celular en Ajustes ⚙\n(Perfil → Completar mis datos)',3400);go('ajus');renderAjustes();return}
+       const code='WJ-'+Math.random().toString(36).slice(2,6).toUpperCase();
+       st.premios['p'+p.n]=code;save();
+       dbIns('premio_claim',{registro_id:dbRid(),alcance:'lvl'+p.n,nivel:p.n,codigo:code,estado:'emitido'});
+       renderPremios();dbTrack('premio',{nivel:p.n,codigo:code});
+       toast('🎁 Tu código de canje:\n'+code+'\n(mostralo en la oficina/comercio)\n¡Válido 1 sola vez!',5200);
+     };
+     d.appendChild(b);
+   }else if(done){
+     const s=document.createElement('span');s.className='badge';s.style.marginLeft='auto';s.textContent=st.premios['p'+p.n];d.appendChild(s);
+   }
+   l.appendChild(d);
+ });
+}
+let CURRENT='A';
+function current(){return CURRENT}
+let lastChip=null;
+function verRangos(){toast('Rangos — significados de "wayki" en quechua:\nCompañero 3 · Amigo 12 · Hermano 20 sellos',3800)}
+function primerPaso(){
+ $('grid').scrollIntoView({behavior:'smooth',block:'start'});
+ if(!tiene('A1'))toast('Tip: arrancá por la Ciudad Histórica — el primero es el de "La casa donde nació la patria" 🏛',3000);
+}
+/* panel de datos (Modo Ente) */
+function renderDatos(){
+ const ks=Object.keys(st.sellos).filter(k=>SELLOS.some(z=>z.id===k));
+ const circos=new Set(ks.map(k=>k[0]));
+ $('d-sellos').textContent=ks.length;
+ $('d-noct').textContent=st.nocturnos;
+ $('d-circo').textContent=circos.size+' / 6';
+ $('d-yapa').textContent=Object.keys(st.yapa||{}).length;
+ sbCounts();
+}
+function sbCounts(){
+ if(!SB){$('d-sb').innerHTML=`${I.flask} <b>Sin conexión a la base</b> (modo demo). En producción este panel lee en vivo las tablas <b>registro · checkin · premio_claim · yapa</b> del juego.`;return}
+ const c=(t,f)=>{const q=SB.from(t).select('*',{count:'exact',head:true});if(f)f(q);return q};
+ Promise.all([c('registro'),c('checkin'),c('premio_claim'),c('yapa'),c('checkin',q=>q.in('medio',['hotel','codigo']))])
+ .then(([reg,chk,pc,yp,no])=>{
+  const e=reg.error||chk.error||pc.error||yp.error||no.error;
+  if(e){console.warn('[counts]',e.message);$('d-sb').innerHTML='⚠ La base está accesible pero el conteo falló (revisar políticas RLS).';return}
+  $('d-sb').innerHTML=
+   `${I.users} <b>registros</b> ${reg.count??'—'}<br>${I.ticket} <b>check-ins de sellos</b> ${chk.count??'—'}<br>${I.moon} <b>pernoctes acreditados</b> ${no.count??'—'}<br>${I.gift} <b>premios emitidos</b> ${pc.count??'—'}<br>${I.post} <b>yapas compartidas</b> ${yp.count??'—'}`;
+ }).catch(e=>{$('d-sb').textContent='No pude leer la base: '+(e.message||e)});
+}
+function reset(){if(confirm('¿Borrar la partida del prototipo?')){localStorage.removeItem('edv_v1');st={sellos:{},nocturnos:0,premios:{}};go('on');renderHome();toast('Partida reiniciada ↺',1600)}}
+/* ajustes + grupo */
+const NOM_ORIG={SMT:'San Miguel de Tucumán',TUC:'Interior de Tucumán',AMBA:'Buenos Aires / GBA (AMBA)',NOA:'Otra provincia del NOA',AR:'Otra provincia argentina',EX:'Exterior'};
+function renderAjustes(){
+ const r=$('aj-reg'),g=$('aj-grupo');
+ if(!st.user){r.innerHTML='<span class="next">Todavía no te registraste — abrí tu diario desde el inicio.</span>';g.innerHTML='';return}
+ const u=st.user;
+ const ALOJ={oficial:'Red oficial ETT: '+u.hotel,parahotel:'Parahotelería (cabañas / apart)',familia:'Casa de familia o amigos',camping:'Camping',ns:'Aún sin definir'};
+ r.innerHTML=`<div class="av-fila">
+  <div class="avatar-wrap" onclick="document.getElementById('f-foto').click()" title="Cambiar foto de perfil">
+   <div class="avatar" id="av">${u.foto?`<img src="${u.foto}" alt="Mi foto de perfil">`:u.nom.split(' ').map(w=>w[0]).slice(0,2).join('')}</div>
+   <div class="avatar-cam">${I.camP}</div>
+  </div>
+  <div style="flex:1;min-width:0;padding-top:2px">
+   <b style="font-size:16px">${u.nom}</b>${u.prov?` <span class="next" style="display:inline;font-size:10.5px">(entró con ${u.prov})</span>`:''}<br>${I.phone} ${u.tel||'sin completar ⚠'}${u.mail?' · '+I.mail+' '+u.mail:''}<br>${I.compass} Origen: ${u.orig?NOM_ORIG[u.orig]:'sin completar ⚠'}<br>${I.bed} Estadía: ${u.noches||'sin completar'} · ${ALOJ[u.aloj]||'sin completar'}<br>${I.users} Juega: ${u.perf||'sin completar'}${u.news?'<br>'+I.mail+' Recibe novedades del Ente':''}
+   ${(!u.tel||!u.orig)?'<br><b style="color:var(--cP);font-size:11px">⚠ Perfil incompleto — necesario para canjear premios</b>':''}
+  </div>
+ </div>
+ ${u.foto?'<button class="btn btn-ghost" style="margin:10px auto 0;font-size:12px" onclick="quitarFoto()">✕ Quitar la foto</button>':''}`;
+ if(!st.grupo){
+  const acomp=!!u.perf&&u.perf!=='Solo yo';
+  g.innerHTML=`<div class="next" style="margin-bottom:9px">${acomp?'Elegiste jugar acompañado ('+u.perf+') — creá tu grupo y los otros se suman con el código: sus sellos llenan el global del grupo.':(u.perf?'Jugás solo, pero podés armar un grupo igual: los que se sumen comparten el global.':'Completá con quién jugás (Perfil) y armá un grupo si querés: los que se sumen comparten el global.')}</div>
+   <button class="btn btn-principal" style="margin:0 auto 10px" onclick="nuevoGrupo()">${I.users} CREAR MI GRUPO</button>
+   <div class="fld-row"><input id="g-cod" placeholder="¿Tenés código de grupo? Ingresalo" style="flex:1"><button class="btn btn-ghost" style="flex:0 0 auto;padding:10px 13px" onclick="unirCod()">SUMARME</button></div>`;
+ }else{
+  const G=st.grupo;
+  const INIT=s=>s.split(' ').map(w=>w[0]).slice(0,2).join('');
+  const miniA=m=>{
+   if(m===u.nom)return u.foto?`<img src="${u.foto}" alt="" style="width:20px;height:20px;border-radius:50%;border:1.5px solid var(--petroleo);object-fit:cover">`:`<span style="width:20px;height:20px;border-radius:50%;border:1.5px solid var(--petroleo);background:var(--amar);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:var(--petroleo);flex-shrink:0">${INIT(u.nom)}</span>`;
+   if(G.fotos&&G.fotos[m])return `<img src="${G.fotos[m]}" alt="" style="width:20px;height:20px;border-radius:50%;object-fit:cover">`;
+   return `<span style="width:20px;height:20px;border-radius:50%;border:1.5px dashed #9FB3B2;background:var(--papel);flex-shrink:0"></span>`;
+  };
+  g.innerHTML=`<div class="rango-box" style="box-shadow:none">
+   <div class="av-fila" style="align-items:center">
+    <div class="avatar-wrap" onclick="document.getElementById('g-foto').click()" title="Cambiar foto del grupo">
+     <div class="avatar">${G.foto?`<img src="${G.foto}" alt="Foto del grupo">`:INIT(G.nom)}</div>
+     <div class="avatar-cam">${I.camP}</div>
+    </div>
+    <div style="flex:1;min-width:0;padding-left:2px">
+     <b style="font-family:var(--disp);font-size:18px;letter-spacing:.5px">Grupo ${G.nom}</b>
+     <div class="next" style="margin-top:4px;font-size:14px">Código para compartir: <span class="cod-grupo" style="margin-top:0;font-size:14px;letter-spacing:2px">${G.cod}</span></div>
+    </div>
+   </div>
+   <div class="next">Pasales el código para que se sumen. Sus sellos llenan el global del grupo.</div>
+   <div style="margin-top:9px"><b>Miembros (${G.miembros.length}/6)</b></div>
+   ${G.miembros.map(m=>`<div style="font-size:13px;display:flex;align-items:center;gap:7px;margin-top:5px">${miniA(m)} ${m}${m===u.nom?' <span class="next">(vos)</span>':''}</div>`).join('')}
+   ${G.foto?'<button class="btn btn-ghost" style="margin:10px auto 0;font-size:12px" onclick="quitarFoto(1)">✕ Quitar la foto del grupo</button>':''}
+   <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+    <button class="btn btn-ghost" style="flex:1;min-width:140px" onclick="codShare()">⎘ Compartir código</button>
+    <button class="btn btn-ghost" style="flex:1;min-width:140px" onclick="demoUnion()">${I.flask} Simular suma (demo)</button>
+   </div>
+   <button class="btn btn-ghost" style="margin:8px auto 0" onclick="dejarGrupo()">${I.door} Dejar el grupo</button>
+  </div>`;
+ }
+}
+function fotoElegida(e){
+ const f=e.target.files&&e.target.files[0];e.target.value='';if(!f)return;
+ if(!/^image\//.test(f.type))return toast('Ese archivo no parece foto',1800);
+ toast('Acomodando la foto…',1200);
+ const esG=e.target.id==='g-foto';
+ const r=new FileReader();
+ r.onload=()=>{const im=new Image();im.onload=()=>{
+   const s=Math.min(im.width,im.height),c=document.createElement('canvas');c.width=c.height=160;
+   const g=c.getContext('2d');g.drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,160,160);
+   if(esG)st.grupo.foto=c.toDataURL('image/jpeg',.75);else st.user.foto=c.toDataURL('image/jpeg',.75);
+   save();renderAjustes();renderHome();
+   toast('📷 Foto de '+(esG?'grupo':'perfil')+' sumada ✨',2000);
+  };im.onerror=()=>toast('No pude leer esa imagen',1800);im.src=r.result};
+ r.readAsDataURL(f);
+}
+function quitarFoto(g){
+ if(g){delete st.grupo.foto;toast('Foto del grupo quitada',1500)}
+ else{delete st.user.foto;renderHome();toast('Foto quitada',1500)}
+ save();renderAjustes();
+}
+/* selfie del lugar: entra a la tarjeta de Instagram del capítulo */
+let SELFIE_ID=null;
+const selfieDe=s=>st.sellos[s.id]&&st.sellos[s.id].selfie;
+function sumarSelfie(id){SELFIE_ID=id;$('s-foto').click()}
+function selfieElegida(e){
+ const f=e.target.files&&e.target.files[0];e.target.value='';if(!f)return;
+ if(!SELFIE_ID)return;
+ if(!/^image\//.test(f.type))return toast('Ese archivo no parece foto',1800);
+ toast('Recortando tu selfie…',900);
+ const r=new FileReader();
+ r.onload=()=>{const im=new Image();im.onload=()=>{
+   const sq=Math.min(im.width,im.height),c=document.createElement('canvas');c.width=c.height=1080;
+   const g=c.getContext('2d');g.drawImage(im,(im.width-sq)/2,(im.height-sq)/2,sq,sq,0,0,1080,1080);
+   st.sellos[SELFIE_ID].selfie=c.toDataURL('image/jpeg',.75);
+   const idv=SELFIE_ID;SELFIE_ID=null;
+   save();dbTrack('selfie',{sello:idv});
+   ficha(SELLOS.find(z=>z.id===idv));
+   toast('📷 Selfie sumada al capítulo',1800);
+ };im.onerror=()=>toast('No pude leer esa imagen',1800);im.src=r.result};
+ r.readAsDataURL(f);
+}
+function quitarSelfie(id){
+ delete st.sellos[id].selfie;save();ficha(SELLOS.find(z=>z.id===id));toast('Selfie quitada',1500);
+}
+function selfieBox(s){
+ const sf=selfieDe(s);
+ if(!sf)return`<button class="btn btn-ghost" style="display:block;width:100%" onclick="sumarSelfie('${s.id}')">${I.camera} Sumar mi selfie del lugar (para Instagram)</button>`;
+ return`<div style="display:flex;align-items:center;gap:10px;background:#fff;border:2px solid var(--linea);border-radius:12px;padding:8px 10px;margin-top:8px">
+   <img src="${sf}" style="width:54px;height:54px;border-radius:10px;object-fit:cover;border:2px solid var(--petroleo)">
+   <div style="flex:1;font-weight:800;color:var(--teal);font-size:13px">${I.camera} Tu selfie del lugar</div>
+   <button class="btn btn-ghost" style="padding:9px 11px" onclick="sumarSelfie('${s.id}')">Cambiar</button>
+   <button class="btn btn-ghost" style="padding:9px 11px" onclick="quitarSelfie('${s.id}')">✕</button></div>`;
+}
+function nuevoGrupo(){
+ $('aj-grupo').innerHTML=`<div class="rango-box" style="box-shadow:none">
+  <label style="font-size:11.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;display:block;margin-bottom:4px">Ponéle nombre a tu grupo</label>
+  <input id="g-nom" placeholder="Ej: Los Ruiz por el verano" style="width:100%;box-sizing:border-box;padding:11px 13px;border:2px solid var(--ci);border-radius:12px;font-family:var(--cuer);font-weight:600;font-size:15px;color:var(--petroleo)">
+  <div style="display:flex;gap:8px;margin-top:10px">
+   <button class="btn btn-principal" style="flex:1" onclick="crearGrupo()">CREAR GRUPO</button>
+   <button class="btn btn-ghost" onclick="renderAjustes()">Cancelar</button>
+  </div></div>`;
+}
+function COD5(){const L='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let c='';for(let i=0;i<5;i++)c+=L[Math.floor(Math.random()*L.length)];return c}
+function crearGrupo(){
+ const nom=$('g-nom').value.trim()||'El grupo de '+st.user.nom.split(' ')[0];
+ st.grupo={id:uuid(),nom,cod:COD5(),miembros:[st.user.nom]};
+ dbGrupoCreate(st.grupo.id,st.grupo.cod,nom);
+ save();renderAjustes();
+ toast('¡Grupo creado! Compartí el código '+st.grupo.cod,3000);
+}
+function unirCod(){
+ const c=($('g-cod').value||'').trim().toUpperCase().replace(/[^A-Z]/g,'');
+ if(c.length<4)return toast('Ese código parece corto',1500);
+ if(SB)SB.from('grupo').select('id,nombre').eq('codigo',c).then(({data,error})=>{
+  if(error||!data||!data.length){
+   st.grupo={nom:'Grupo '+c,cod:c,miembros:[st.user.nom,'— sincroniza al conectar —']};
+   save();renderAjustes();
+   toast('No encontré el grupo '+c+' en la base — quedaste en modo demo',3000);
+  }else{
+   const g=data[0];
+   st.grupo={id:g.id,nom:g.nombre||('Grupo '+c),cod:c,miembros:[st.user.nom,'— sincroniza —']};
+   save();renderAjustes();
+   SB.from('grupo_miembro').insert({registro_id:dbRid(),grupo_id:g.id}).then(r=>{if(r.error)console.warn('[db miembro]',r.error.message)});
+   toast('¡Enlazado a '+st.grupo.nom+'! '+c,3000);
+  }
+ });
+ else{st.grupo={nom:'Grupo '+c,cod:c,miembros:[st.user.nom,'— sincroniza al conectar —']};save();renderAjustes();toast('Enlzado al grupo '+c,2400)}
+}
+function codShare(){toast('⎘ Código copiado: '+st.grupo.cod+' (en la PWA: link + QR)',2400)}
+function demoUnion(){
+ if(!st.grupo||st.grupo.miembros.length>=6)return;
+ const D=['Ana','Lucas','Vale','Nico','Fer'];
+ const cols=['#91B973','#70A4B0','#CF712B','#A93432','#E2CE0F'];
+ const nom=D[Math.floor(Math.random()*D.length)];
+ const c=document.createElement('canvas');c.width=c.height=40;
+ const g=c.getContext('2d');
+ g.fillStyle=cols[(st.grupo.miembros.length-1)%cols.length];g.fillRect(0,0,40,40);
+ g.fillStyle='#FFFFFF';g.font='800 17px sans-serif';g.textAlign='center';g.textBaseline='middle';
+ g.fillText(nom[0],20,22);
+ st.grupo.fotos=st.grupo.fotos||{};st.grupo.fotos[nom]=c.toDataURL('image/png');
+ st.grupo.miembros.push(nom);
+ save();renderAjustes();
+ toast('👤 Se sumó '+nom+' al grupo',2200);
+}
+function dejarGrupo(){
+ if(!st.grupo)return;
+ if(!confirm('¿Dejar '+st.grupo.nom+'? Tus sellos propios quedan intactos.'))return;
+ st.grupo=null;save();renderAjustes();toast('Dejaste el grupo',1800);
+}
+let EDIT=0;
+function editarReg(){
+ EDIT=1;const u=st.user;
+ $('f-nom').value=u.nom;$('f-tel').value=u.tel;$('f-mail').value=u.mail||'';
+ $('f-orig').value=u.orig;$('f-noches').value=u.noches;$('f-aloj').value=u.aloj;verAloj();
+ if(u.hotel)$('f-hotel').value=u.hotel;$('f-per').value=u.perf;
+ $('f-acep').checked=true;$('f-news').checked=!!u.news;
+ document.querySelector('#v-reg .btn-principal').textContent='GUARDAR CAMBIOS';
+ go('reg');
+}
+/* helpers */
+function dHav(a,b,c,d){if([a,b,c,d].some(v=>v==null))return 999;const R=6371,x=Math.PI/180;return 2*R*Math.asin(Math.sqrt(Math.sin(x*(c-a)/2)**2+Math.cos(x*a)*Math.cos(x*c)*Math.sin(x*(b-d)/2)**2))}
+renderHome();
+dbTrack('app_start',{});
+</script>
+<script src="assets/fotos.js"></script>
+</body>
+</html>

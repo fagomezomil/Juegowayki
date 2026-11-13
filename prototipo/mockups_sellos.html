@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Mockups sellos — 4 estilos</title>
+<style>
+:root{--petroleo:#1e3a41;--amar:#e2ce0f;--linea:rgba(255,255,255,.25)}
+*{margin:0;box-sizing:border-box}
+body{background:#0d1415;font-family:'Segoe UI',system-ui,sans-serif;display:flex;flex-wrap:wrap;gap:26px;padding:24px;justify-content:center}
+.wrap{display:flex;flex-direction:column;align-items:center;gap:10px}
+.tit{color:#fff;font-size:14px;font-weight:800;letter-spacing:1px}
+.sub{color:#9ab3b8;font-size:11px;max-width:340px;text-align:center}
+.phone{width:375px;height:720px;background:#10201f;border-radius:26px;padding:14px 12px;overflow:auto;box-shadow:0 0 0 1px #2a4a48}
+.hd{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.hd .h1{color:#fff;font-weight:800;font-size:17px;flex:1}
+.hd .cnt{color:#cfe3e6;background:rgba(255,255,255,.08);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700}
+/* paleta circuitos */
+.A{--ci:#004264}.B{--ci:#52996C}.C{--ci:#7D192F}.D{--ci:#3D7672}.E{--ci:#A93432}
+
+/* ================= 1. POSTAL + CHIPS ================= */
+.v1{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.v1 .card{position:relative;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 6px 16px rgba(0,0,0,.35);cursor:pointer}
+.v1 .foto{height:110px;background-image:url('assets/textura.png');background-size:cover;filter:saturate(.9)}
+.v1 .cuerpo{padding:8px 10px 10px}
+.v1 .nom{font-weight:800;font-size:12.5px;color:#173c42;line-height:1.25}
+.v1 .det{font-size:10.5px;color:#5b7078;margin-top:3px}
+.v1 .banda{position:absolute;top:0;left:0;background:var(--ci);color:#fff;font-size:9px;font-weight:800;letter-spacing:.6px;padding:3px 9px;border-bottom-right-radius:10px}
+.v1 .mar{position:absolute;top:6px;right:6px;display:flex;gap:4px}
+.v1 .mar .ch{background:#fff;border-radius:14px;padding:3px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(0,0,0,.3)}
+.v1 .mar .ch img{height:13px}
+.v1 .mar .ch svg{height:14px}
+.v1 .ok::after{content:'✔';position:absolute;bottom:8px;right:10px;color:var(--ci);font-weight:900;font-size:14px}
+
+/* ================= 2. PLACA / MONEDA ================= */
+.v2{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:4px}
+.v2 .placa{aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,#28484d,#12262a 70%);border:3px solid var(--ci);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;text-align:center;position:relative;box-shadow:inset 0 0 0 2px rgba(255,255,255,.08),0 4px 10px rgba(0,0,0,.4);cursor:pointer}
+.v2 .placa.log{background:#f4efe4}
+.v2 .num{position:absolute;top:4px;left:0;width:100%;color:rgba(255,255,255,.45);font-size:9px;font-weight:800;letter-spacing:2px}
+.v2 .ico{height:34px;display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.v2 .ico img{height:26px;max-width:70%}
+.v2 .ico svg{height:26px}
+.v2 .nom{color:#fff;font-size:9.5px;font-weight:800;line-height:1.2}
+.v2 .placa.log .nom{color:#26333a}
+.v2 .placa.ok{background:radial-gradient(circle at 35% 30%,var(--ci),#0c1c20 80%)}
+.v2 .placa.ok::after{content:'✔';position:absolute;bottom:6px;right:10px;color:var(--amar);font-size:13px;font-weight:900}
+
+/* ================= 3. STICKER / ALBUM ================= */
+.v3{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.v3 .stk{border-radius:4px 18px 4px 18px;background:#fffdf5;padding:10px 10px 8px;border:3px solid var(--ci);box-shadow:0 4px 10px rgba(0,0,0,.4);cursor:pointer}
+.v3 .head{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.v3 .head img.logoR{height:14px}
+.v3 .head svg{height:15px;color:#877}
+.v3 .nom{font-weight:800;font-size:12px;color:#20343a;line-height:1.2}
+.v3 .num{font-size:9px;color:#a99;font-weight:700;margin-top:4px;letter-spacing:1px}
+.v3 .ok .nom::after{content:'';display:inline-block;width:16px;height:16px;margin-left:5px;background:var(--ci);color:#fff;font-size:10px;line-height:16px;text-align:center;border-radius:50%}
+
+/* ================= 4. BITACORA / LISTA ================= */
+.v4{display:flex;flex-direction:column;gap:8px}
+.v4 .fila{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.05);border-left:4px solid var(--ci);border-radius:10px;padding:9px 12px;cursor:pointer}
+.v4 .num{color:#cfe3e6;font-weight:900;font-size:13px;opacity:.5;width:22px;text-align:center}
+.v4 .txt{flex:1}
+.v4 .nom{color:#fff;font-weight:800;font-size:12.5px}
+.v4 .sub{color:#9ab3b8;font-size:10.5px;margin-top:2px;text-align:left}
+.v4 .logos{display:flex;gap:5px;align-items:center}
+.v4 .logos img{height:16px;background:#fff;border-radius:10px;padding:2px 4px}
+.v4 .logos svg{height:16px;color:var(--amar)}
+.v4 .ok .nom{color:var(--amar)}
+.v4 .ok .num{opacity:1;color:var(--amar)}
+</style>
+</head>
+<body>
+
+<!-- ============ 1 POSTAL ============ -->
+<div class="wrap">
+ <div class="tit">1 · POSTAL + CHIPS</div>
+ <div class="sub">Foto grande, banda de color del circuito, badges flotantes arriba a la derecha (cámara + logos de ruta). Estado logrado con ✔</div>
+ <div class="phone">
+  <div class="hd"><div class="h1">Valles Calchaquíes</div><div class="cnt">4/13 sellos</div></div>
+  <div class="v1">
+   <div class="card ok C"><div class="banda">C3 · TAFÍ</div><div class="foto"></div><div class="cuerpo"><div class="nom">Tras el paso de los jesuitas</div><div class="det">Museo Jesuítico de La Banda · mar–dom 8–18</div></div><div class="mar"><span class="ch"><img src="assets/log-jesuitas.png"></span></div></div>
+   <div class="card C"><div class="banda">C4 · EL MOLLAR</div><div class="foto"></div><div class="cuerpo"><div class="nom">Herencia ancestral</div><div class="det"></div></div><div class="mar"><span class="ch"><svg viewBox="0 0 24 24" fill="none" stroke="#1e3a41" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span><span class="ch"><img src="assets/log-arqueologico.png"></span></div></div>
+   <div class="card C"><div class="banda">C8 · COLALAO</div><div class="foto"></div><div class="cuerpo"><div class="nom">Vinos de altura</div><div class="det"></div></div><div class="mar"><span class="ch"><img src="assets/log-vino-altura.png"></span></div></div>
+   <div class="card ok C"><div class="banda">C9 · QUILMES</div><div class="foto"></div><div class="cuerpo"><div class="nom">La ciudad que nunca se rindió</div><div class="det"></div></div><div class="mar"><span class="ch"><img src="assets/log-arqueologico.png"></span></div></div>
+   <div class="card C"><div class="banda">C10 · EL PELAO</div><div class="foto"></div><div class="cuerpo"><div class="nom">Recorrido serrano</div><div class="det"></div></div><div class="mar"><span class="ch"><img src="assets/log-ecosendas.png"></span></div></div>
+   <div class="card C"><div class="banda">C11 · TALAPAZO</div><div class="foto"></div><div class="cuerpo"><div class="nom">El pueblo de piedra</div><div class="det"></div></div><div class="mar"><span class="ch"><img src="assets/log-rural-comunitario.png"></span></div></div>
+  </div>
+ </div>
+</div>
+
+<!-- ============ 2 PLACA ============ -->
+<div class="wrap">
+ <div class="tit">2 · PLACA CIRCULAR</div>
+ <div class="sub">Monedas/explorador: token circular con anillo del color del circuito, numeral arriba, logo de ruta adentro. Los de ruta invierten el fondo</div>
+ <div class="phone">
+  <div class="hd"><div class="h1">Valles Calchaquíes</div><div class="cnt">4/13 sellos</div></div>
+  <div class="v2">
+   <div class="placa ok C"><div class="num">C1</div><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#e2ce0f" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="nom">El paso de las nubes</div></div>
+   <div class="placa C"><div class="num">C4</div><div class="ico"><img src="assets/log-arqueologico.png"></div><div class="nom">Herencia ancestral</div></div>
+   <div class="placa log C"><div class="num">C5</div><div class="ico"><img src="assets/log-jesuitas.png"></div><div class="nom">Tras el paso de los jesuitas</div></div>
+   <div class="placa log C"><div class="num">C8</div><div class="ico"><img src="assets/log-vino-altura.png"></div><div class="nom">Vinos de altura</div></div>
+   <div class="placa ok C"><div class="num">C9</div><div class="ico"><img src="assets/log-arqueologico.png"></div><div class="nom">La ciudad que nunca se rindió</div></div>
+   <div class="placa log C"><div class="num">C10</div><div class="ico"><img src="assets/log-ecosendas.png"></div><div class="nom">Recorrido serrano</div></div>
+  </div>
+ </div>
+</div>
+
+<!-- ============ 3 STICKER ============ -->
+<div class="wrap">
+ <div class="tit">3 · STICKER DE ÁLBUM</div>
+ <div class="sub">Cromos de álbum de viajes: papel, esquinas redondeadas asimétricas, contorno del color del circuito. Logo de ruta en el cabezal</div>
+ <div class="phone">
+  <div class="hd"><div class="h1">Valles Calchaquíes</div><div class="cnt">4/13 sellos</div></div>
+  <div class="v3">
+   <div class="stk ok C"><div class="head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="nom">El paso de las nubes</div><div class="num">C1 · CONSEGUIDO</div></div>
+   <div class="stk C"><div class="head"><img class="logoR" src="assets/log-arqueologico.png"></div><div class="nom">Herencia ancestral</div><div class="num">C4 · EL MOLLAR</div></div>
+   <div class="stk C"><div class="head"><img class="logoR" src="assets/log-jesuitas.png"></div><div class="nom">Tras el paso de los jesuitas</div><div class="num">C5 · TAFÍ</div></div>
+   <div class="stk C"><div class="head"><img class="logoR" src="assets/log-vino-altura.png"></div><div class="nom">Vinos de altura</div><div class="num">C8 · COLALAO</div></div>
+   <div class="stk ok C"><div class="head"><img class="logoR" src="assets/log-arqueologico.png"></div><div class="nom">La ciudad que nunca se rindió</div><div class="num">C9 · CONSEGUIDO</div></div>
+   <div class="stk C"><div class="head"><img class="logoR" src="assets/log-ecosendas.png"></div><div class="nom">Recorrido serrano</div><div class="num">C10 · EL PELAO</div></div>
+  </div>
+ </div>
+</div>
+
+<!-- ============ 4 BITACORA ============ -->
+<div class="wrap">
+ <div class="tit">4 · BITÁCORA</div>
+ <div class="sub">Lista vertical tipo cuaderno de viaje: numeral, sellos logrados en amarillo, badges de ruta a la derecha. Acomoda nombres largos</div>
+ <div class="phone">
+  <div class="hd"><div class="h1">Valles Calchaquíes</div><div class="cnt">4/13 sellos</div></div>
+  <div class="v4">
+   <div class="fila ok C"><div class="num">C1</div><div class="txt"><div class="nom">El paso de las nubes</div><div class="sub">Mirador El Infiernillo</div></div><div class="logos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div></div>
+   <div class="fila C"><div class="num">C4</div><div class="txt"><div class="nom">Herencia ancestral</div><div class="sub">Los Menhires · El Mollar</div></div><div class="logos"><img src="assets/log-arqueologico.png"></div></div>
+   <div class="fila C"><div class="num">C5</div><div class="txt"><div class="nom">Tras el paso de los jesuitas</div><div class="sub">Museo Jesuítico de La Banda</div></div><div class="logos"><img src="assets/log-jesuitas.png"></div></div>
+   <div class="fila C"><div class="num">C8</div><div class="txt"><div class="nom">Vinos de altura</div><div class="sub">Colalao del Valle</div></div><div class="logos"><img src="assets/log-vino-altura.png"></div></div>
+   <div class="fila ok C"><div class="num">C9</div><div class="txt"><div class="nom">La ciudad que nunca se rindió</div><div class="sub">Ruinas de Quilmes</div></div><div class="logos"><img src="assets/log-arqueologico.png"></div></div>
+   <div class="fila C"><div class="num">C10</div><div class="txt"><div class="nom">Recorrido serrano</div><div class="sub">Senda El Pelao 5/9 km</div></div><div class="logos"><img src="assets/log-ecosendas.png"></div></div>
+  </div>
+ </div>
+</div>
+</body>
+</html>
